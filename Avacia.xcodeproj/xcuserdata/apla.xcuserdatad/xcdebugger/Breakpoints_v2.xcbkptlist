@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "16199153-FBC6-45AA-AEF7-1637F5910918"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DACB4493-03D8-42C7-ADA9-25A255C49297"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../electrino/Electrino/macOS/ElectrinoFramework/ENOJSBrowserWindow.m"
+            timestampString = "618512330.011126"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
+            landmarkName = "-userContentController:didReceiveScriptMessage:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9BB16A42-31B5-48F7-9069-EF1AFF0A6E42"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../electrino/Electrino/macOS/ElectrinoFramework/ENOJSBrowserWindow.m"
+            timestampString = "618512330.012273"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "-setAspectRatio:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "92B16D16-01D2-4DAC-A1D5-A1B49E13DE88"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../electrino/Electrino/macOS/ElectrinoFramework/ENOJSFS.swift"
+            timestampString = "617721208.33576"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "readFileSync(path:options:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BF02A494-5FF6-4230-84A2-9C060BB55B53"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../electrino/Electrino/macOS/ElectrinoFramework/ENOJavaScriptApp.m"
+            timestampString = "618512330.0132"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "-init"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AAF15EFD-A945-4DAB-B346-A36A78733D1C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../electrino/Electrino/macOS/ElectrinoFramework/ENOJavaScriptApp.m"
+            timestampString = "618512330.013386"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "-init"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AAF15EFD-A945-4DAB-B346-A36A78733D1C - 57d97e375a2692a3"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ENOJavaScriptApp init]"
+                  moduleName = "ElectrinoFramework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///More/work/my/js-shell/mac/electrino/Electrino/macOS/ElectrinoFramework/ENOJavaScriptApp.m"
+                  timestampString = "617709864.5192111"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
+                  offsetFromSymbolStart = "3672">
+               </Location>
+               <Location
+                  uuid = "AAF15EFD-A945-4DAB-B346-A36A78733D1C - d928eecd1c1f2349"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__24-[ENOJavaScriptApp init]_block_invoke.127"
+                  moduleName = "ElectrinoFramework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///More/work/my/js-shell/mac/electrino/Electrino/macOS/ElectrinoFramework/ENOJavaScriptApp.m"
+                  timestampString = "617709864.52161"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
+                  offsetFromSymbolStart = "29">
+               </Location>
+               <Location
+                  uuid = "AAF15EFD-A945-4DAB-B346-A36A78733D1C - 5bf60c125a042855"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_e8_32s40s48s56r"
+                  moduleName = "ElectrinoFramework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///More/work/my/js-shell/mac/electrino/Electrino/macOS/ElectrinoFramework/ENOJavaScriptApp.m"
+                  timestampString = "617709864.523404"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "237D067B-650E-4D6A-8A4A-09F5EAC63B22"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../electrino/Electrino/macOS/ElectrinoFramework/ENOJavaScriptApp.m"
+            timestampString = "618512330.013549"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "-init"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "237D067B-650E-4D6A-8A4A-09F5EAC63B22 - d928eecd1c1f2349"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__24-[ENOJavaScriptApp init]_block_invoke.127"
+                  moduleName = "ElectrinoFramework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///More/work/my/js-shell/mac/electrino/Electrino/macOS/ElectrinoFramework/ENOJavaScriptApp.m"
+                  timestampString = "617712309.47357"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "1647">
+               </Location>
+               <Location
+                  uuid = "237D067B-650E-4D6A-8A4A-09F5EAC63B22 - 18dbe166c471286b"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_e8_32s40s48s56r"
+                  moduleName = "ElectrinoFramework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///More/work/my/js-shell/mac/electrino/Electrino/macOS/ElectrinoFramework/ENOJavaScriptApp.m"
+                  timestampString = "617712309.476743"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1CE9C32E-5861-407A-8F99-2296967B9C3D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../electrino/Electrino/macOS/ElectrinoFramework/ENOJavaScriptApp.m"
+            timestampString = "618512330.013694"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
+            landmarkName = "-evaluateCJSModule:fromPath:inject:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

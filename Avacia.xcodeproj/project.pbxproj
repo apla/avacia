@@ -7,35 +7,74 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CD61F57024C2E0F800623B5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD61F56F24C2E0F800623B5B /* AppDelegate.swift */; };
-		CD61F57224C2E0FA00623B5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD61F57124C2E0FA00623B5B /* Assets.xcassets */; };
-		CD61F57524C2E0FA00623B5B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD61F57324C2E0FA00623B5B /* MainMenu.xib */; };
+		CD1E8B5F24D935980082F2F9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E8B5E24D935980082F2F9 /* AppDelegate.m */; };
+		CD1E8B6124D9359A0082F2F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD1E8B6024D9359A0082F2F9 /* Assets.xcassets */; };
+		CD1E8B6424D9359A0082F2F9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD1E8B6224D9359A0082F2F9 /* MainMenu.xib */; };
+		CD1E8B6724D9359A0082F2F9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E8B6624D9359A0082F2F9 /* main.m */; };
+		CD1E8B6C24D935A50082F2F9 /* ElectrinoFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */; };
+		CD1E8B6D24D935A50082F2F9 /* ElectrinoFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CD1E8B6F24D935BA0082F2F9 /* app in Resources */ = {isa = PBXBuildFile; fileRef = CD564AB724C2F09C00587CBC /* app */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		CD1E8B6E24D935A50082F2F9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CD1E8B6D24D935A50082F2F9 /* ElectrinoFramework.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		CD61F56C24C2E0F800623B5B /* Play.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Play.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CD61F56F24C2E0F800623B5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CD61F57124C2E0FA00623B5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		CD61F57424C2E0FA00623B5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		CD61F57624C2E0FA00623B5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CD61F57724C2E0FA00623B5B /* Play.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Play.entitlements; sourceTree = "<group>"; };
+		CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ElectrinoFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD1E8B5B24D935980082F2F9 /* Avacia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avacia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD1E8B5D24D935980082F2F9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		CD1E8B5E24D935980082F2F9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CD1E8B6024D9359A0082F2F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CD1E8B6324D9359A0082F2F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		CD1E8B6524D9359A0082F2F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD1E8B6624D9359A0082F2F9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CD1E8B6824D9359A0082F2F9 /* Avacia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Avacia.entitlements; sourceTree = "<group>"; };
+		CD564AB724C2F09C00587CBC /* app */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		CD61F56924C2E0F800623B5B /* Frameworks */ = {
+		CD1E8B5824D935980082F2F9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD1E8B6C24D935A50082F2F9 /* ElectrinoFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CD1E8B5C24D935980082F2F9 /* Avacia */ = {
+			isa = PBXGroup;
+			children = (
+				CD1E8B5D24D935980082F2F9 /* AppDelegate.h */,
+				CD1E8B5E24D935980082F2F9 /* AppDelegate.m */,
+				CD1E8B6024D9359A0082F2F9 /* Assets.xcassets */,
+				CD1E8B6224D9359A0082F2F9 /* MainMenu.xib */,
+				CD1E8B6524D9359A0082F2F9 /* Info.plist */,
+				CD1E8B6624D9359A0082F2F9 /* main.m */,
+				CD1E8B6824D9359A0082F2F9 /* Avacia.entitlements */,
+			);
+			path = Avacia;
+			sourceTree = "<group>";
+		};
 		CD61F56324C2E0F800623B5B = {
 			isa = PBXGroup;
 			children = (
-				CD61F56E24C2E0F800623B5B /* Play */,
+				CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */,
+				CD564AB724C2F09C00587CBC /* app */,
+				CD1E8B5C24D935980082F2F9 /* Avacia */,
 				CD61F56D24C2E0F800623B5B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,41 +82,30 @@
 		CD61F56D24C2E0F800623B5B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CD61F56C24C2E0F800623B5B /* Play.app */,
+				CD1E8B5B24D935980082F2F9 /* Avacia.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		CD61F56E24C2E0F800623B5B /* Play */ = {
-			isa = PBXGroup;
-			children = (
-				CD61F56F24C2E0F800623B5B /* AppDelegate.swift */,
-				CD61F57124C2E0FA00623B5B /* Assets.xcassets */,
-				CD61F57324C2E0FA00623B5B /* MainMenu.xib */,
-				CD61F57624C2E0FA00623B5B /* Info.plist */,
-				CD61F57724C2E0FA00623B5B /* Play.entitlements */,
-			);
-			path = Play;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CD61F56B24C2E0F800623B5B /* Play */ = {
+		CD1E8B5A24D935980082F2F9 /* Avacia */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CD61F57A24C2E0FA00623B5B /* Build configuration list for PBXNativeTarget "Play" */;
+			buildConfigurationList = CD1E8B6924D9359A0082F2F9 /* Build configuration list for PBXNativeTarget "Avacia" */;
 			buildPhases = (
-				CD61F56824C2E0F800623B5B /* Sources */,
-				CD61F56924C2E0F800623B5B /* Frameworks */,
-				CD61F56A24C2E0F800623B5B /* Resources */,
+				CD1E8B5724D935980082F2F9 /* Sources */,
+				CD1E8B5824D935980082F2F9 /* Frameworks */,
+				CD1E8B5924D935980082F2F9 /* Resources */,
+				CD1E8B6E24D935A50082F2F9 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = Play;
-			productName = Play;
-			productReference = CD61F56C24C2E0F800623B5B /* Play.app */;
+			name = Avacia;
+			productName = avacia;
+			productReference = CD1E8B5B24D935980082F2F9 /* Avacia.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -90,12 +118,17 @@
 				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = example;
 				TargetAttributes = {
-					CD61F56B24C2E0F800623B5B = {
+					CD1E8B5A24D935980082F2F9 = {
 						CreatedOnToolsVersion = 10.3;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
-			buildConfigurationList = CD61F56724C2E0F800623B5B /* Build configuration list for PBXProject "Play" */;
+			buildConfigurationList = CD61F56724C2E0F800623B5B /* Build configuration list for PBXProject "Avacia" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -108,39 +141,41 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CD61F56B24C2E0F800623B5B /* Play */,
+				CD1E8B5A24D935980082F2F9 /* Avacia */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CD61F56A24C2E0F800623B5B /* Resources */ = {
+		CD1E8B5924D935980082F2F9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD61F57224C2E0FA00623B5B /* Assets.xcassets in Resources */,
-				CD61F57524C2E0FA00623B5B /* MainMenu.xib in Resources */,
+				CD1E8B6F24D935BA0082F2F9 /* app in Resources */,
+				CD1E8B6124D9359A0082F2F9 /* Assets.xcassets in Resources */,
+				CD1E8B6424D9359A0082F2F9 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		CD61F56824C2E0F800623B5B /* Sources */ = {
+		CD1E8B5724D935980082F2F9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD61F57024C2E0F800623B5B /* AppDelegate.swift in Sources */,
+				CD1E8B6724D9359A0082F2F9 /* main.m in Sources */,
+				CD1E8B5F24D935980082F2F9 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		CD61F57324C2E0FA00623B5B /* MainMenu.xib */ = {
+		CD1E8B6224D9359A0082F2F9 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CD61F57424C2E0FA00623B5B /* Base */,
+				CD1E8B6324D9359A0082F2F9 /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -148,6 +183,40 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		CD1E8B6A24D9359A0082F2F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = avacia/avacia.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = avacia/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.apla.avacia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CD1E8B6B24D9359A0082F2F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = avacia/avacia.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = avacia/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.apla.avacia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		CD61F57824C2E0FA00623B5B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -263,59 +332,23 @@
 			};
 			name = Release;
 		};
-		CD61F57B24C2E0FA00623B5B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Play/Play.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Play/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = example.Play;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		CD61F57C24C2E0FA00623B5B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Play/Play.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Play/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = example.Play;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CD61F56724C2E0F800623B5B /* Build configuration list for PBXProject "Play" */ = {
+		CD1E8B6924D9359A0082F2F9 /* Build configuration list for PBXNativeTarget "Avacia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CD61F57824C2E0FA00623B5B /* Debug */,
-				CD61F57924C2E0FA00623B5B /* Release */,
+				CD1E8B6A24D9359A0082F2F9 /* Debug */,
+				CD1E8B6B24D9359A0082F2F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CD61F57A24C2E0FA00623B5B /* Build configuration list for PBXNativeTarget "Play" */ = {
+		CD61F56724C2E0F800623B5B /* Build configuration list for PBXProject "Avacia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CD61F57B24C2E0FA00623B5B /* Debug */,
-				CD61F57C24C2E0FA00623B5B /* Release */,
+				CD61F57824C2E0FA00623B5B /* Debug */,
+				CD61F57924C2E0FA00623B5B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
