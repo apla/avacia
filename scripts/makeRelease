@@ -28,11 +28,13 @@ else
     exit 1
 fi
 
+ZIP_NAME="${FULL_PRODUCT_NAME%%.app*}-${MARKETING_VERSION}.zip"
+
 cd "$TARGET_BUILD_DIR"
-zip -u -y -r -q "$EXEC_DIR/${FULL_PRODUCT_NAME%%.app*}-${MARKETING_VERSION}.zip" "$FULL_PRODUCT_NAME"
+zip -u -y -r -q "$EXEC_DIR/$ZIP_NAME" "$FULL_PRODUCT_NAME"
 cd -
 
-if [ ! -f "$EXEC_DIR/${FULL_PRODUCT_NAME%%.app*}-${MARKETING_VERSION}.zip" ] ; then
+if [ ! -f "$EXEC_DIR/$ZIP_NAME" ] ; then
     echo "Zip failed, no .zip file created"
     exit 1
 fi
@@ -41,7 +43,15 @@ if [ "x${GITHUB_ACC}" == "x" ] ; then
     GITHUB_ACC=$(id -un)
 fi
 
-echo "Github account username: " $GITHUB_ACC
+# use https urls
+GIT_REMOTE_URL=$(git ls-remote --get-url)
+
+GIT_API_URL="https://api.github.com/repos${GIT_REMOTE_URL#https://github.com}"
+
+echo "$GIT_API_URL"
+
+echo "Github account username:" $GITHUB_ACC
+echo "Github repository:" $GIT_REMOTE_URL
 
 if [ "x${ASK_PASS}" != "x" ] ; then
     stty -echo
@@ -58,5 +68,58 @@ else
 fi
 
 printf -v PASSWD_ESC "%q" "$PASSWD"
+
+JSONV3_HEADER="Accept: application/vnd.github.v3+json"
+AUTH_HEADER="Authorization: token ${PASSWD_ESC}"
+
+TAG_NAME="v/$MARKETING_VERSION"
+TAG_NAME_ESC=$(echo "$TAG_NAME" | node -p 'encodeURIComponent(require("fs").readFileSync(0).toString().trim())')
+
+TAGS_RESULT=$(curl -s -H "$JSONV3_HEADER" "$GIT_API_URL/tags" | grep "\"name\": \"$TAG_NAME\"")
+if [ $? -eq 0 ] ; then
+    echo "Tag $TAG_NAME found"
+else
+    # or it is behind first page of results
+    echo "Tag not found. Make sure Xcode project version $MARKETING_VERSION matches Github tag $TAG_NAME"
+fi
+
+# git describe --tags $(git rev-list --tags --max-count=1)
+TAG_MESSAGE=$(git cat-file -p $TAG_NAME | tail -n +6)
+RELEASE_MESSAGE="$TAG_MESSAGE"
+
+# TODO: check if release is available
+RELEASE=$(curl -s -H "$AUTH_HEADER" -H "$JSONV3_HEADER" "$GIT_API_URL/releases/tags/${TAG_NAME_ESC}")
+
+RELEASE_HAVE_ZIP=$(echo "$RELEASE" | grep "\"name\": \"$ZIP_NAME\"")
+if [ $? -eq 0 ] ; then
+    echo "Tag asset found, cannot continue"
+    exit 1
+fi
+
+generateReleaseJson () {
+  cat <<EOF
+{
+  "tag_name": "$TAG_NAME",
+  "target_commitish": "master",
+  "name": "$TAG_NAME",
+  "body": "$RELEASE_MESSAGE",
+  "draft": false,
+  "prerelease": false
+}
+EOF
+}
+
+RELEASE_IS_PUBLISHED=$(echo "$RELEASE" | grep "\"upload_url\": ")
+if [ $? -eq 1 ] ; then
+    echo "Publishing new release"
+    RELEASE=$(curl -s -H "$AUTH_HEADER" -H "$JSONV3_HEADER" -X POST --data "$(generateReleaseJson)" "$GIT_API_URL/releases")
+    RELEASE_IS_PUBLISHED=$(echo "$RELEASE" | grep "\"upload_url\": ")
+fi
+
+UPLOAD_URL_TMP="${RELEASE_IS_PUBLISHED#*https://uploads.github.com}"
+
+UPLOAD_URL="https://uploads.github.com${UPLOAD_URL_TMP%\{*}"
+
+ZIP_UPLOAD=$(curl -H "$AUTH_HEADER" -H "Content-Type:application/zip" --data-binary "@$ZIP_NAME" "$UPLOAD_URL?name=$ZIP_NAME")
 
 # curl -X POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/octocat/hello-world/releases/42/assets
