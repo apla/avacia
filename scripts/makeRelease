@@ -1,0 +1,62 @@
+#!/bin/sh
+
+PROJECT_NAME="Avacia"
+
+EXEC_DIR="$PWD"
+
+# "CODESIGNING_FOLDER_PATH" : "/Users/apla/Library/Developer/Xcode/DerivedData/Avacia-ezentrsdungpgsbckjwpjnnxmnsp/Build/Products/Release/Avacia.app",
+# "FULL_PRODUCT_NAME" : "Avacia.app"
+# "TARGET_BUILD_DIR" : "/Users/apla/Library/Developer/Xcode/DerivedData/Avacia-ezentrsdungpgsbckjwpjnnxmnsp/Build/Products/Release"
+
+echo "Building ${PROJECT_NAME}"
+
+# TODO: use own workspace
+XCBUILD_OUT=$(xcodebuild -workspace ../edocode/edocode.xcworkspace -scheme Avacia -configuration Release build 2>&1)
+
+# echo "$XCBUILD_OUT"
+
+if [ $? -eq 0 ] ; then
+    XCBUILD_VARS=$(xcodebuild -workspace ../edocode/edocode.xcworkspace -scheme Avacia -showBuildSettings 2>/dev/null | grep -e 'FULL_PRODUCT_NAME' -e 'TARGET_BUILD_DIR' -e 'MARKETING_VERSION' | sed -e 's/^  *//')
+    while IFS= read -r XCBUILD_VAR_STR; do
+        XCBUILD_VAR_NAME=${XCBUILD_VAR_STR% = *}
+        XCBUILD_VAR_VALUE=${XCBUILD_VAR_STR#* = }
+        declare "${XCBUILD_VAR_NAME}"="${XCBUILD_VAR_VALUE}"
+    done <<< "$XCBUILD_VARS"
+    echo "Build ok"
+else
+    echo "Build failed"
+    exit 1
+fi
+
+cd "$TARGET_BUILD_DIR"
+zip -u -y -r -q "$EXEC_DIR/${FULL_PRODUCT_NAME%%.app*}-${MARKETING_VERSION}.zip" "$FULL_PRODUCT_NAME"
+cd -
+
+if [ ! -f "$EXEC_DIR/${FULL_PRODUCT_NAME%%.app*}-${MARKETING_VERSION}.zip" ] ; then
+    echo "Zip failed, no .zip file created"
+    exit 1
+fi
+
+if [ "x${GITHUB_ACC}" == "x" ] ; then
+    GITHUB_ACC=$(id -un)
+fi
+
+echo "Github account username: " $GITHUB_ACC
+
+if [ "x${ASK_PASS}" != "x" ] ; then
+    stty -echo
+    printf "Please enter Github password for ${GITHUB_ACC}: "
+    read PASSWD
+    stty echo
+    printf "\n"
+elif [ "x${PASTE_PASS}" != "x" ] ; then
+    # macOS
+    PASSWD=$(pbpaste)
+else
+    # macOS
+    PASSWD="$(security find-internet-password -a $GITHUB_ACC -s github.com -w)"
+fi
+
+printf -v PASSWD_ESC "%q" "$PASSWD"
+
+# curl -X POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/octocat/hello-world/releases/42/assets

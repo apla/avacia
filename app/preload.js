@@ -154,8 +154,10 @@ function setMediaMetadata (currentSiteConfig, {target: mediaEl}) {
     // webview sending nowplaying itself via
     // https://github.com/WebKit/webkit/blob/master/Source/WebCore/platform/audio/PlatformMediaSession.cpp
     // https://github.com/WebKit/webkit/blob/950143da027e80924b4bb86defa8a3f21fd3fb1e/Source/WebCore/platform/audio/cocoa/MediaSessionManagerCocoa.mm#L256
-    if (mediaInfo)
+    if (mediaInfo) {
+        console.log (mediaInfo);
         window.webkit.messageHandlers.$media.postMessage (mediaInfo);
+    }
 
     let videoPropsLogMsg = '';
 

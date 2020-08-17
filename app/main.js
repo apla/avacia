@@ -1,4 +1,4 @@
-const {app, BrowserWindow, session, ipcMain, Menu} = require('electrino');
+const {app, BrowserWindow, session, ipcMain, Menu, Preferences} = require('electrino');
 const path   = require('path');
 const url    = require('url');
 const fs     = require('fs');
@@ -43,7 +43,7 @@ function shellCmd () {
 
 const domain = 'netflix.com';
 // const domain = 'youtube.com';
-const host = `https://${domain}/`;
+const host = Preferences.fetch ({key: "lastVisitedUrl"}) || `https://${domain}/`;
 
 ipcMain.on ('window-state-playing', (event, payload) => {
     // win.setWindowButtonVisibility
@@ -72,13 +72,13 @@ function buildMenu () {
     const videoSites = Object.keys(sites).filter (
         site => sites[site].siteMediaType === 'video'
     ).map (
-        site => ({label: site, click () {win.loadURL (sites[site].baseUrl, {})}})
+        site => ({label: site, click () {win.navigateTo (sites[site].baseUrl, {})}})
     );
 
     const audioSites = Object.keys(sites).filter (
         site => sites[site].siteMediaType === 'audio'
     ).map (
-        site => ({label: site, click () {win.loadURL (sites[site].baseUrl, {})}})
+        site => ({label: site, click () {win.navigateTo (sites[site].baseUrl, {})}})
     );
 
     // Sources, (IINA) Playback, Audio, Video, Subtitles
@@ -87,9 +87,23 @@ function buildMenu () {
     }, {
         role: 'editMenu',
     }, {
-        role: 'viewMenu',
+        label: 'View',
+        submenu: [
+            {
+                label: "Third of screen",
+                accelerator: "Cmd+3"
+            },
+            {
+                label: "Quarter of screen",
+                accelerator: "Cmd+4"
+            },
+            { type: "separator" },
+            { role: "reload" },
+            { role: "toggledevtools" },
+            { type: "separator" },
+        ]
     }, {
-        label: 'Sources',
+        label: 'Navigation',
         submenu: [
             ...videoSites,
             {type: 'separator'},
@@ -123,7 +137,7 @@ function createWindow () {
         if (Object.keys (sites).some (
             site => sites[site].checkOnMediaPage (urlFromService)
         )) {
-            win.loadURL (str, {});
+            win.navigateTo (str, {});
         }
     });
     
@@ -134,6 +148,7 @@ function createWindow () {
         width: 800, height: 600,
         autosaveName: "player",
         titleBarStyle: "hidden",
+        splashscreen: "splash.pdf",
         webPreferences: {
             devTools: true, // devTools enabled by default, set `devTools` key to `false` to disable
             userAgentAppName: "Version/13.1.2 Safari/605.1.15",
@@ -141,6 +156,11 @@ function createWindow () {
         }
     });
 
+    win.navigateTo = function (url, options) {
+        Preferences.store ({key: "lastVisitedUrl", value: url});
+        win.loadURL (url, options);
+    }
+    
     // win.attachContextMenu (buildMenu ());
 
   // and load the index.html of the app.
@@ -152,7 +172,7 @@ function createWindow () {
   }))
   */
     
-    win.loadURL (host, {
+    win.navigateTo (host, {
         // httpReferrer - should work
         // userAgent - not implemented, similar property `userAgentAppName` available in BrowserWindow constructor
         // extraHeaders - should work if js object provided
@@ -179,6 +199,9 @@ function createWindow () {
     
     win.on ('did-finish-load', () => {
         // console.log ('Page load finished successfully!!!');
+        setTimeout (() => {
+            win.show();
+        }, 2000);
     });
   // Emitted when the window is closed.
   win.on('closed', () => {

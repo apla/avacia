@@ -11,19 +11,19 @@
 		CD1E8B6124D9359A0082F2F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD1E8B6024D9359A0082F2F9 /* Assets.xcassets */; };
 		CD1E8B6424D9359A0082F2F9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD1E8B6224D9359A0082F2F9 /* MainMenu.xib */; };
 		CD1E8B6724D9359A0082F2F9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E8B6624D9359A0082F2F9 /* main.m */; };
-		CD1E8B6C24D935A50082F2F9 /* ElectrinoFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */; };
-		CD1E8B6D24D935A50082F2F9 /* ElectrinoFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD1E8B6F24D935BA0082F2F9 /* app in Resources */ = {isa = PBXBuildFile; fileRef = CD564AB724C2F09C00587CBC /* app */; };
+		CDFD5D6224E9118600E7ACD7 /* ElectrinoFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */; };
+		CDFD5D6324E9118600E7ACD7 /* ElectrinoFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		CD1E8B6E24D935A50082F2F9 /* Embed Frameworks */ = {
+		CDFD5D6424E9118600E7ACD7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CD1E8B6D24D935A50082F2F9 /* ElectrinoFramework.framework in Embed Frameworks */,
+				CDFD5D6324E9118600E7ACD7 /* ElectrinoFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD1E8B6C24D935A50082F2F9 /* ElectrinoFramework.framework in Frameworks */,
+				CDFD5D6224E9118600E7ACD7 /* ElectrinoFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +76,7 @@
 				CD564AB724C2F09C00587CBC /* app */,
 				CD1E8B5C24D935980082F2F9 /* Avacia */,
 				CD61F56D24C2E0F800623B5B /* Products */,
+				CDFD5D6124E9118600E7ACD7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,6 +86,13 @@
 				CD1E8B5B24D935980082F2F9 /* Avacia.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CDFD5D6124E9118600E7ACD7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -97,7 +105,7 @@
 				CD1E8B5724D935980082F2F9 /* Sources */,
 				CD1E8B5824D935980082F2F9 /* Frameworks */,
 				CD1E8B5924D935980082F2F9 /* Resources */,
-				CD1E8B6E24D935A50082F2F9 /* Embed Frameworks */,
+				CDFD5D6424E9118600E7ACD7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -195,6 +203,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.apla.avacia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -212,6 +221,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.apla.avacia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

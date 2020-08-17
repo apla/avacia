@@ -83,7 +83,7 @@ function getConfiguredSites () {
                 const mediaEl = document.querySelector ('video');
                 if (mediaEl.videoTracks.length) {
                     const aspectRatio = mediaEl.videoWidth / mediaEl.videoHeight;
-                    const properHeight = (mediaEl.clientWidth / aspectRatio) + 'px';
+                    const properHeight = (window.innerWidth / aspectRatio) + 'px';
                     document.querySelector ('#player-theater-container').style.minHeight = properHeight;
                     mediaEl.style.height = properHeight;
                 }
@@ -186,7 +186,7 @@ function getConfiguredSites () {
                 return pageUrl.hostname.match (/^music\.youtube\.com$/);
             },
             getMediaInfo () {
-                console.log ('SETTING MEDIA INFO');
+                // TODO: youtube music sometimes adds album and album year after delay
                 const titleNode = document.querySelector('ytmusic-player-bar > div.middle-controls.style-scope.ytmusic-player-bar > div.content-info-wrapper.style-scope.ytmusic-player-bar > yt-formatted-string.title');
                 const title = titleNode.title;
                 const subtitle = titleNode.nextElementSibling.querySelector('span.subtitle.style-scope.ytmusic-player-bar > yt-formatted-string').title;
@@ -197,6 +197,7 @@ function getConfiguredSites () {
                     title,
                     albumTitle,
                     artist,
+                    year
                     // releaseDate // year to release date?
                 };
 
@@ -224,9 +225,14 @@ function getConfiguredSites () {
                     .ng-scope div.head, .ng-scope div.head * {-webkit-user-drag: none;}
                     
                     /* spotify bar (open) */
-                    html.spotify__os--is-macos .now-playing-bar-container * {-webkit-user-drag: none;}
-                    html.spotify__os--is-macos .Root__nav-bar>nav>div {-webkit-user-drag: none;}
+                    html.spotify__os--is-macos .now-playing-bar-container *,
+                    html.spotify__os--is-macos .Root__nav-bar>nav>div,
+                    html.spotify__os--is-macos .Root__nav-bar>nav>div *,
+                    div[data-test-id="topbar-content-wrapper"] {
+                        -webkit-user-drag: none;
+                    }
                     html.spotify__os--is-macos .now-playing-bar-container .progress-bar {-webkit-user-drag: auto;}
+                     {-webkit-user-drag: none;}
                     
                     html.spotify__os--is-macos .now-playing-bar-container {
                         position: absolute;
@@ -242,16 +248,37 @@ function getConfiguredSites () {
                     html.spotify__os--is-macos .Root__nav-bar>nav {padding: 0 0 60px;}
                     html.spotify__os--is-macos .Root__nav-bar a.logo {padding: 10px 0 0 75px;}
                     html.spotify__os--is-macos .Root__nav-bar>nav>ul>li:first-of-type {display:none;}
-                    html.spotify__os--is-macos .Root__nav-bar>nav>ul>li:nth-of-type(2) {position: absolute; top: 10px; left: 340px;}
+                    html.spotify__os--is-macos .Root__nav-bar>nav>ul>li:nth-of-type(2) {position: absolute; top: 10px; left: 272px;}
                     html.spotify__os--is-macos .Root__nav-bar>nav>ul>li:nth-of-type(2) a {background: none;}
                     html.spotify__os--is-macos .Root__nav-bar>nav>ul>li:nth-of-type(2) span {display: none;}
+                    html.spotify__os--is-macos .Root__nav-bar>nav>ul>div:nth-of-type(3)>div a {display: none;}
+                    div[data-test-id="topbar-content-wrapper"] {padding: 40px;}
+                    @media screen and (min-width: 1024px) {
+                        html.spotify__os--is-macos .Root__nav-bar>nav>ul>li:nth-of-type(2) {position: absolute; top: 10px; left: 340px;}
+                    }
+
+                    div.volume-bar {display: none;}
+                    
+                    .now-playing-bar__center {width: 60%;}
+                    .now-playing-bar__right {width: 10%; min-width: 75px;}
+                    .now-playing-bar__right__inner {width: 75px;}
                 `;
             },
             checkOnMediaPage (pageUrl = window.location) {
                 return pageUrl.hostname.match (/^open\.spotify\.com$/);
             },
             getMediaInfo () {
+                // album accessible, but only through queue interface
+                var nowPlayingNodes = document.querySelectorAll (
+                    '.Root__now-playing-bar .now-playing-bar__left div.now-playing .react-contextmenu-wrapper'
+                );
+
                 // spotify already knows about media info
+                return {
+                    title: nowPlayingNodes[0].textContent,
+                    artist: nowPlayingNodes[1].textContent,
+                }
+
             },
         },
     };
