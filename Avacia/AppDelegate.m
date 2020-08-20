@@ -8,19 +8,24 @@
 
 #import "AppDelegate.h"
 
+#import "AppleMediaKeyController.h"
+
 @interface AppDelegate ()
 
-@property (weak) IBOutlet NSWindow *window;
 @end
 
 @implementation AppDelegate
 
-/*
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
+    [super applicationDidFinishLaunching:aNotification];
+    
+    [AppleMediaKeyController sharedController];
+    
+    // now js part can call
+    // app.onMacOSNotification ('MediaKeyNextNotification', () => {/* handler */})
 }
 
-
+/*
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
 }

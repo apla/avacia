@@ -41,8 +41,8 @@ function shellCmd () {
       });
 }
 
-const domain = 'netflix.com';
-// const domain = 'youtube.com';
+// const domain = 'netflix.com';
+const domain = 'youtube.com';
 const host = Preferences.fetch ({key: "lastVisitedUrl"}) || `https://${domain}/`;
 
 ipcMain.on ('window-state-playing', (event, payload) => {
@@ -118,31 +118,6 @@ function buildMenu () {
 
 function createWindow () {
 
-    app.registerServiceHandler((str) => {
-        console.log ('service received something ', str);
-        let urlFromService;
-        try {
-            // simplified url match
-            const [, protocol, host, path, pathname, query] = str.match (/^(https?:)\/\/([^\/]+)((\/[^\?]*)(?:\?(.*)|$))/);
-            const [hostname, port = (protocol === 'https:' ? 443 : 80)] = host.split (':');
-            urlFromService = {protocol, host, hostname, port, path, pathname, query};
-        } catch (err) {
-            console.log ('service cannot recognise url');
-            return;
-        }
-        
-        console.log (JSON.stringify (urlFromService));
-        
-        const sites = getConfiguredSites();
-        if (Object.keys (sites).some (
-            site => sites[site].checkOnMediaPage (urlFromService)
-        )) {
-            win.navigateTo (str, {});
-        }
-    });
-    
-    Menu.setApplicationMenu (buildMenu ());
-
     // Create the browser window.
     win = new BrowserWindow({
         width: 800, height: 600,
@@ -200,7 +175,7 @@ function createWindow () {
     win.on ('did-finish-load', () => {
         // console.log ('Page load finished successfully!!!');
         setTimeout (() => {
-            win.show();
+            console.log ('2 sec timeout');
         }, 2000);
     });
   // Emitted when the window is closed.
@@ -215,7 +190,56 @@ function createWindow () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', () => {
+    
+    app.registerServiceHandler((str) => {
+        console.log ('service received something ', str);
+        let urlFromService;
+        try {
+            // simplified url match
+            const [, protocol, host, path, pathname, query] = str.match (/^(https?:)\/\/([^\/]+)((\/[^\?]*)(?:\?(.*)|$))/);
+            const [hostname, port = (protocol === 'https:' ? 443 : 80)] = host.split (':');
+            urlFromService = {protocol, host, hostname, port, path, pathname, query};
+        } catch (err) {
+            console.log ('service cannot recognise url');
+            return;
+        }
+        
+        console.log (JSON.stringify (urlFromService));
+        
+        const sites = getConfiguredSites();
+        if (Object.keys (sites).some (
+            site => sites[site].checkOnMediaPage (urlFromService)
+        )) {
+            win.navigateTo (str, {});
+        }
+    });
+    
+    Menu.setApplicationMenu (buildMenu ());
+    
+    app.onMacOSNotification ('MediaKeyNextNotification', () => {
+        console.log ('NEXT KEY!');
+        // electron way:
+        // https://github.com/RogerTheRabbit/kTube-Desktop-App/blob/13197fd1eefe596be53f959ed8eb26347c50d5a8/client/main.js
+        // // Register a 'MediaNextTrack' shortcut listener.
+        // const MediaNextTrack = globalShortcut.register("MediaNextTrack", () => {
+        //  win.webContents.send("MediaNextTrack", "MediaNextTrack");
+        // });
+        // TODO: create proper KeyEvent
+        // MRMediaRemoteCommandSkipForward
+        //
+        if (win)
+            win.evaluateJavaScript('document.dispatchEvent(new Event("MediaNextTrack"))');
+    });
+    
+    app.onMacOSNotification ('MediaKeyPreviousNotification', () => {
+        console.log ('PREVIOUS KEY!');
+        if (win)
+        win.evaluateJavaScript('document.dispatchEvent(new Event("MediaPreviousTrack"))');
+    });
+    
+    createWindow();
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

@@ -186,6 +186,11 @@ function getConfiguredSites () {
                 return pageUrl.hostname.match (/^music\.youtube\.com$/);
             },
             getMediaInfo () {
+                // TODO: prev/next probably can be visible event without media
+                switchPreviousTrack.element = document.querySelector ('#left-controls > div > paper-icon-button.previous-button.style-scope.ytmusic-player-bar');
+                
+                switchNextTrack.element = document.querySelector ('#left-controls > div > paper-icon-button.next-button.style-scope.ytmusic-player-bar');
+                
                 // TODO: youtube music sometimes adds album and album year after delay
                 const titleNode = document.querySelector('ytmusic-player-bar > div.middle-controls.style-scope.ytmusic-player-bar > div.content-info-wrapper.style-scope.ytmusic-player-bar > yt-formatted-string.title');
                 const title = titleNode.title;
@@ -210,6 +215,7 @@ function getConfiguredSites () {
             siteMediaType: 'audio',
             baseUrl: 'https://open.spotify.com',
             getInjectCss () {
+                
                 if (
                     !window.location.hostname.match (/spotify\.com$/)
                 ) {
@@ -265,9 +271,22 @@ function getConfiguredSites () {
                 `;
             },
             checkOnMediaPage (pageUrl = window.location) {
+                
+                if (!switchPreviousTrack.element) {
+                    const el = document.querySelector ('#main > div > div.Root__top-container > div.Root__now-playing-bar > footer > div > div.now-playing-bar__center > div > div.player-controls__buttons > div:nth-child(2) > button[data-testid="control-button-skip-back"]');
+                    if (el) switchPreviousTrack.element = el;
+                }
+                
+                if (!switchNextTrack.element) {
+                    const el = document.querySelector ('#main > div > div.Root__top-container > div.Root__now-playing-bar > footer > div > div.now-playing-bar__center > div > div.player-controls__buttons > div:nth-child(4) > button[data-testid="control-button-skip-forward"]');
+                    switchNextTrack.element = el;
+                }
+                
                 return pageUrl.hostname.match (/^open\.spotify\.com$/);
             },
             getMediaInfo () {
+                // never runs on spotify
+
                 // album accessible, but only through queue interface
                 var nowPlayingNodes = document.querySelectorAll (
                     '.Root__now-playing-bar .now-playing-bar__left div.now-playing .react-contextmenu-wrapper'

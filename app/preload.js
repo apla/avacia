@@ -4,6 +4,24 @@ window.addEventListener ('contextmenu', (evt) => {
     window.webkit.messageHandlers.$contextmenu.postMessage ('contextmenu');
 });
 
+function switchNextTrack () {
+    if (switchNextTrack.element) {
+        switchNextTrack.element.click();
+    }
+    
+}
+
+function switchPreviousTrack () {
+    if (switchPreviousTrack.element) {
+        switchPreviousTrack.element.click();
+    }
+}
+
+
+document.addEventListener('MediaNextTrack', switchNextTrack);
+
+document.addEventListener('MediaPreviousTrack', switchPreviousTrack);
+
 const sites = getConfiguredSites();
 let currentSite;
 

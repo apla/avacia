@@ -11,12 +11,12 @@ EXEC_DIR="$PWD"
 echo "Building ${PROJECT_NAME}"
 
 # TODO: use own workspace
-XCBUILD_OUT=$(xcodebuild -workspace ../edocode/edocode.xcworkspace -scheme Avacia -configuration Release build 2>&1)
+XCBUILD_OUT=$(xcodebuild -workspace Avacia.xcworkspace -scheme Avacia -configuration Release build 2>&1)
 
 # echo "$XCBUILD_OUT"
 
 if [ $? -eq 0 ] ; then
-    XCBUILD_VARS=$(xcodebuild -workspace ../edocode/edocode.xcworkspace -scheme Avacia -showBuildSettings 2>/dev/null | grep -e 'FULL_PRODUCT_NAME' -e 'TARGET_BUILD_DIR' -e 'MARKETING_VERSION' | sed -e 's/^  *//')
+    XCBUILD_VARS=$(xcodebuild -workspace Avacia.xcworkspace -scheme Avacia -showBuildSettings 2>/dev/null | grep -e 'FULL_PRODUCT_NAME' -e 'TARGET_BUILD_DIR' -e 'MARKETING_VERSION' | sed -e 's/^  *//')
     while IFS= read -r XCBUILD_VAR_STR; do
         XCBUILD_VAR_NAME=${XCBUILD_VAR_STR% = *}
         XCBUILD_VAR_VALUE=${XCBUILD_VAR_STR#* = }

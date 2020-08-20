@@ -12,11 +12,22 @@
 		CD1E8B6424D9359A0082F2F9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD1E8B6224D9359A0082F2F9 /* MainMenu.xib */; };
 		CD1E8B6724D9359A0082F2F9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E8B6624D9359A0082F2F9 /* main.m */; };
 		CD1E8B6F24D935BA0082F2F9 /* app in Resources */ = {isa = PBXBuildFile; fileRef = CD564AB724C2F09C00587CBC /* app */; };
+		CDE3837F24EC60CE0053F00C /* AppleMediaKeyController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE3837E24EC60CE0053F00C /* AppleMediaKeyController.m */; };
 		CDFD5D6224E9118600E7ACD7 /* ElectrinoFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */; };
 		CDFD5D6324E9118600E7ACD7 /* ElectrinoFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		CDE3837524EBF47B0053F00C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CDFD5D6424E9118600E7ACD7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -41,6 +52,9 @@
 		CD1E8B6624D9359A0082F2F9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CD1E8B6824D9359A0082F2F9 /* Avacia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Avacia.entitlements; sourceTree = "<group>"; };
 		CD564AB724C2F09C00587CBC /* app */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app; sourceTree = "<group>"; };
+		CDE3836024EBF47B0053F00C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		CDE3837D24EC60CE0053F00C /* AppleMediaKeyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleMediaKeyController.h; sourceTree = "<group>"; };
+		CDE3837E24EC60CE0053F00C /* AppleMediaKeyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleMediaKeyController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +72,8 @@
 		CD1E8B5C24D935980082F2F9 /* Avacia */ = {
 			isa = PBXGroup;
 			children = (
+				CDE3837D24EC60CE0053F00C /* AppleMediaKeyController.h */,
+				CDE3837E24EC60CE0053F00C /* AppleMediaKeyController.m */,
 				CD1E8B5D24D935980082F2F9 /* AppDelegate.h */,
 				CD1E8B5E24D935980082F2F9 /* AppDelegate.m */,
 				CD1E8B6024D9359A0082F2F9 /* Assets.xcassets */,
@@ -91,6 +107,7 @@
 		CDFD5D6124E9118600E7ACD7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CDE3836024EBF47B0053F00C /* Cocoa.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -106,6 +123,7 @@
 				CD1E8B5824D935980082F2F9 /* Frameworks */,
 				CD1E8B5924D935980082F2F9 /* Resources */,
 				CDFD5D6424E9118600E7ACD7 /* Embed Frameworks */,
+				CDE3837524EBF47B0053F00C /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -173,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD1E8B6724D9359A0082F2F9 /* main.m in Sources */,
+				CDE3837F24EC60CE0053F00C /* AppleMediaKeyController.m in Sources */,
 				CD1E8B5F24D935980082F2F9 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
