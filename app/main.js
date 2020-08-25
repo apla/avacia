@@ -75,6 +75,27 @@ ipcMain.on ('window-set-aspect-ratio', (event, payload) => {
     
 });
 
+function resizeWindow (constraint) {
+    const winBounds = win.getBounds();
+    const displayProps = screen.getDisplayMatching (winBounds);
+    const displayBounds = displayProps.bounds;
+    
+    // TODO: make it beatiful: align to edges, proportions
+    const override = {};
+    if ('width' in constraint) {
+        override.width = Math.ceil(displayBounds.width * constraint.width);
+        if (Math.abs (winBounds.x - displayBounds.x) > Math.abs ((winBounds.x + winBounds.width) - (displayBounds.x + displayBounds.width))
+        ) {
+            override.x = (winBounds.x + winBounds.width) - override.width;
+        }
+    }
+    console.log ("old width %@, old x %@, new width %@, new x %@", winBounds.width, winBounds.x, override.width, override.x);
+    win.setBounds({
+        ...winBounds,
+        ...override
+    }, true);
+}
+
 function buildMenu () {
 
     const sites = getConfiguredSites();
@@ -101,12 +122,12 @@ function buildMenu () {
             {
                 label: "Third of screen",
                 accelerator: "Cmd+3",
-                accelerator: "Cmd+3"
+                click: resizeWindow.bind (this, {width: 1/3})
             },
             {
                 label: "Quarter of screen",
                 accelerator: "Cmd+4",
-                accelerator: "Cmd+4"
+                click: resizeWindow.bind (this, {width: 1/4})
             },
             { type: "separator" },
             { role: "reload" },
@@ -119,7 +140,14 @@ function buildMenu () {
             ...videoSites,
             {type: 'separator'},
             ...audioSites,
-            ...audioSites
+            {type: 'separator'},
+            {
+                label: "Open current url in browser",
+                click () {
+                    win.evaluateJavaScript('window.location.toString()').then (currentUrl => shell.openExternal (currentUrl));
+                }
+            
+            }
         ],
     }, {
         role: 'windowMenu',
