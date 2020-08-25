@@ -8,7 +8,11 @@ EXEC_DIR="$PWD"
 # "FULL_PRODUCT_NAME" : "Avacia.app"
 # "TARGET_BUILD_DIR" : "/Users/apla/Library/Developer/Xcode/DerivedData/Avacia-ezentrsdungpgsbckjwpjnnxmnsp/Build/Products/Release"
 
-echo "Building ${PROJECT_NAME}"
+VERSION=$(node -p "require('./app/package.json').version")
+
+echo "Building ${PROJECT_NAME} version $VERSION"
+
+sed -ie "s/MARKETING_VERSION = [^;]+/MARKETING_VERSION = $VERSION/g" Avacia.xcodeproj/project.pbxproj
 
 # TODO: use own workspace
 XCBUILD_OUT=$(xcodebuild -workspace Avacia.xcworkspace -scheme Avacia -configuration Release build 2>&1)
@@ -24,6 +28,7 @@ if [ $? -eq 0 ] ; then
     done <<< "$XCBUILD_VARS"
     echo "Build ok"
 else
+    echo "${XCBUILD_OUT}"
     echo "Build failed"
     exit 1
 fi

@@ -1,4 +1,13 @@
-const {app, BrowserWindow, session, ipcMain, Menu, Preferences} = require('electrino');
+const {app, BrowserWindow, session, ipcMain, Menu, shell, screen} = require ('electron');
+try {
+    var {Preferences, XMLHttpRequest} = require ('electrino');
+} catch (err) {
+    var Preferences = {
+        fetch () {},
+        store () {}
+    }
+}
+
 const path   = require('path');
 const url    = require('url');
 const fs     = require('fs');

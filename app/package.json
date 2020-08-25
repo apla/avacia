@@ -1,5 +1,12 @@
 {
-  "name"    : "Avacia",
-  "version" : "0.1.0",
-  "main"    : "main.js"
+  "name": "Avacia",
+  "version": "1.1.1",
+  "build": "586",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^9.2.1"
+  }
 }
