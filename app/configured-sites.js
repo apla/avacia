@@ -180,6 +180,13 @@ function getConfiguredSites () {
                             
                     /* youtube music */
                     ytmusic-search-box.ytmusic-nav-bar {top: 75px;}
+
+                    /* playlist */
+                    ytmusic-player-page#player-page div#main-panel[style] {padding: 0 !important; width: 25vw;}
+
+                    @media (max-width: 450px) ytmusic-player-page#player-page>div.content.ytmusic-player-page {flex-direction: column;}
+                    ytmusic-player-page#player-page>div.content.ytmusic-player-page {flex-direction: row; padding: 0;}
+                    ytmusic-player-page#player-page>div.content.ytmusic-player-page>div.side-panel.classic {width: auto; margin: 0;}
                 `;
             },
             checkOnMediaPage (pageUrl = window.location) {
@@ -187,9 +194,9 @@ function getConfiguredSites () {
             },
             getMediaInfo () {
                 // TODO: prev/next probably can be visible event without media
-                switchPreviousTrack.element = document.querySelector ('#left-controls > div > paper-icon-button.previous-button.style-scope.ytmusic-player-bar');
+                navigator.mediaSession.actions.previoustrack.element = document.querySelector ('#left-controls > div > paper-icon-button.previous-button.style-scope.ytmusic-player-bar');
                 
-                switchNextTrack.element = document.querySelector ('#left-controls > div > paper-icon-button.next-button.style-scope.ytmusic-player-bar');
+                navigator.mediaSession.actions.nexttrack.element = document.querySelector ('#left-controls > div > paper-icon-button.next-button.style-scope.ytmusic-player-bar');
                 
                 // TODO: youtube music sometimes adds album and album year after delay
                 const titleNode = document.querySelector('ytmusic-player-bar > div.middle-controls.style-scope.ytmusic-player-bar > div.content-info-wrapper.style-scope.ytmusic-player-bar > yt-formatted-string.title');
@@ -272,15 +279,17 @@ function getConfiguredSites () {
             },
             checkOnMediaPage (pageUrl = window.location) {
                 
-                if (!switchPreviousTrack.element) {
+                /*
+                if (!navigator.mediaSession.actions.previoustrack.element) {
                     const el = document.querySelector ('#main > div > div.Root__top-container > div.Root__now-playing-bar > footer > div > div.now-playing-bar__center > div > div.player-controls__buttons > div:nth-child(2) > button[data-testid="control-button-skip-back"]');
-                    if (el) switchPreviousTrack.element = el;
+                    if (el) navigator.mediaSession.actions.previoustrack.element = el;
                 }
                 
-                if (!switchNextTrack.element) {
+                if (!navigator.mediaSession.actions.nexttrack.element) {
                     const el = document.querySelector ('#main > div > div.Root__top-container > div.Root__now-playing-bar > footer > div > div.now-playing-bar__center > div > div.player-controls__buttons > div:nth-child(4) > button[data-testid="control-button-skip-forward"]');
-                    switchNextTrack.element = el;
+                    if (el) navigator.mediaSession.actions.nexttrack.element = el;
                 }
+                */
                 
                 return pageUrl.hostname.match (/^open\.spotify\.com$/);
             },

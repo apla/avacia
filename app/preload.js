@@ -4,23 +4,84 @@ window.addEventListener ('contextmenu', (evt) => {
     window.webkit.messageHandlers.$contextmenu.postMessage ('contextmenu');
 });
 
-function switchNextTrack () {
-    if (switchNextTrack.element) {
-        switchNextTrack.element.click();
+if (!("mediaSession" in navigator)) {
+    class MediaMetadata {
+        constructor (metadata) {
+            this.title   = metadata.title;
+            this.artist  = metadata.artist;
+            this.album   = metadata.album;
+            this.artwork = metadata.artwork;
+        }
+        compare (metadata) {
+            if (
+                   this.title  !== metadata.title
+                || this.artist !== metadata.artist
+                || this.album  !== metadata.album
+            ) {
+                return false;
+            }
+        }
     }
     
-}
+    window.MediaMetadata = MediaMetadata;
 
-function switchPreviousTrack () {
-    if (switchPreviousTrack.element) {
-        switchPreviousTrack.element.click();
+    class _MediaSession {
+        constructor () {
+            function runAction (mediaSessionAction) {
+                if (mediaSessionAction.handler) {
+                    mediaSessionAction.handler();
+                } else if (mediaSessionAction.element) {
+                    mediaSessionAction.element.click();
+                }
+            }
+            const actions = {
+                previoustrack () {
+                    const mediaSessionAction = navigator.mediaSession.actions.previoustrack;
+                    
+                    runAction (mediaSessionAction);
+                },
+                nexttrack () {
+                    const mediaSessionAction = navigator.mediaSession.actions.nexttrack;
+                    
+                    runAction (mediaSessionAction);
+                },
+                play () {},
+                pause () {},
+                seekbackward () {},
+                seekforward () {},
+                seekto () {},
+                skipad () {},
+            };
+            Object.defineProperty (this, 'actions', {value: actions});
+        }
+        set playbackState (state) {
+            this._playbackState = state;
+        }
+        get playbackState () {
+            return this._playbackState;
+        }
+        set metadata (mediaMeta) {
+            if (!this._metadata || !this._metadata.differsFrom || this._metadata.differsFrom (mediaMeta)) {
+                console.log ('MEDIA SESSION INFO:', mediaMeta);
+                window.webkit && window.webkit.messageHandlers.$media.postMessage (mediaMeta);
+            }
+            this._metadata = mediaMeta;
+        }
+        get metadata () {
+            return this._metadata;
+        }
+        setActionHandler (action, handler) {
+            console.log (action);
+            if (navigator.mediaSession.actions[action])
+                navigator.mediaSession.actions[action].handler = handler;
+        }
+        setPositionState() {
+            
+        }
     }
+
+    navigator.mediaSession = new _MediaSession ();
 }
-
-
-document.addEventListener('MediaNextTrack', switchNextTrack);
-
-document.addEventListener('MediaPreviousTrack', switchPreviousTrack);
 
 const sites = getConfiguredSites();
 let currentSite;
@@ -173,7 +234,7 @@ function setMediaMetadata (currentSiteConfig, {target: mediaEl}) {
     // https://github.com/WebKit/webkit/blob/master/Source/WebCore/platform/audio/PlatformMediaSession.cpp
     // https://github.com/WebKit/webkit/blob/950143da027e80924b4bb86defa8a3f21fd3fb1e/Source/WebCore/platform/audio/cocoa/MediaSessionManagerCocoa.mm#L256
     if (mediaInfo) {
-        console.log (mediaInfo);
+        console.log ('HTML MEDIA INFO:', mediaInfo);
         window.webkit.messageHandlers.$media.postMessage (mediaInfo);
     }
 
