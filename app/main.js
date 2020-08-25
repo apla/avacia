@@ -47,21 +47,21 @@ const host = Preferences.fetch ({key: "lastVisitedUrl"}) || `https://${domain}/`
 
 ipcMain.on ('window-state-playing', (event, payload) => {
     // win.setWindowButtonVisibility
-    console.log ('window-video-play', event, JSON.stringify(payload));
+    // console.log ('window-video-play', event, JSON.stringify(payload));
     win.setAlwaysOnTop(true);
     win.setWindowButtonVisibility(false);
 });
 
 ipcMain.on ('window-state-regular', (event, payload) => {
     // win.setWindowButtonVisibility
-    console.log ('window-state-regular', event, JSON.stringify(payload));
+    // console.log ('window-state-regular', event, JSON.stringify(payload));
     win.setAlwaysOnTop(false);
     win.setWindowButtonVisibility(true);
 });
 
 ipcMain.on ('window-set-aspect-ratio', (event, payload) => {
     // win.setWindowButtonVisibility
-    console.log ('window-set-aspect-ratio', JSON.stringify(payload));
+    // console.log ('window-set-aspect-ratio', JSON.stringify(payload));
     // win.setAspectRatio (payload.aspectRatio);
     
 });
@@ -72,13 +72,13 @@ function buildMenu () {
     const videoSites = Object.keys(sites).filter (
         site => sites[site].siteMediaType === 'video'
     ).map (
-        site => ({label: site, click () {win.navigateTo (sites[site].baseUrl, {})}})
+        site => ({label: site, click () {navigateTo (win, sites[site].baseUrl, {})}})
     );
 
     const audioSites = Object.keys(sites).filter (
         site => sites[site].siteMediaType === 'audio'
     ).map (
-        site => ({label: site, click () {win.navigateTo (sites[site].baseUrl, {})}})
+        site => ({label: site, click () {navigateTo (win, sites[site].baseUrl, {})}})
     );
 
     // Sources, (IINA) Playback, Audio, Video, Subtitles
@@ -91,15 +91,17 @@ function buildMenu () {
         submenu: [
             {
                 label: "Third of screen",
+                accelerator: "Cmd+3",
                 accelerator: "Cmd+3"
             },
             {
                 label: "Quarter of screen",
+                accelerator: "Cmd+4",
                 accelerator: "Cmd+4"
             },
             { type: "separator" },
             { role: "reload" },
-            { role: "toggledevtools" },
+            { role: "toggleDevTools" },
             { type: "separator" },
         ]
     }, {
@@ -107,6 +109,7 @@ function buildMenu () {
         submenu: [
             ...videoSites,
             {type: 'separator'},
+            ...audioSites,
             ...audioSites
         ],
     }, {
@@ -116,6 +119,11 @@ function buildMenu () {
     return menu;
 }
 
+function navigateTo (win, url, options) {
+    Preferences.store ({key: "lastVisitedUrl", value: url});
+    win.loadURL (url, options);
+}
+
 function createWindow () {
 
     // Create the browser window.
@@ -123,7 +131,7 @@ function createWindow () {
         width: 800, height: 600,
         autosaveName: "player",
         titleBarStyle: "hidden",
-        splashscreen: "splash.pdf",
+        splashscreen: "images/splash.pdf",
         webPreferences: {
             devTools: true, // devTools enabled by default, set `devTools` key to `false` to disable
             userAgentAppName: "Version/13.1.2 Safari/605.1.15",
@@ -131,10 +139,7 @@ function createWindow () {
         }
     });
 
-    win.navigateTo = function (url, options) {
-        Preferences.store ({key: "lastVisitedUrl", value: url});
-        win.loadURL (url, options);
-    }
+    
     
     // win.attachContextMenu (buildMenu ());
 
@@ -147,7 +152,7 @@ function createWindow () {
   }))
   */
     
-    win.navigateTo (host, {
+    navigateTo (win, host, {
         // httpReferrer - should work
         // userAgent - not implemented, similar property `userAgentAppName` available in BrowserWindow constructor
         // extraHeaders - should work if js object provided
@@ -160,13 +165,13 @@ function createWindow () {
     // https://github.com/microsoft/vscode/blob/9eb77263661075b5c8aeff6a97e462809bb21d9c/src/vs/base/browser/ui/menu/menubar.ts
     // https://github.com/microsoft/vscode/blob/9451800fe793d87cb968d5241a73e442fda774c5/src/vs/platform/menubar/electron-main/menubar.ts
 
-  // Open the DevTools.
-  // win.webContents.openDevTools()
+    // Open the DevTools.
+    // win.webContents.openDevTools()
 
     // test
-//    win.on('page-title-updated', (evt) => {
-//        evt.preventDefault();
-//    });
+    // win.on('page-title-updated', (evt) => {
+    //     evt.preventDefault();
+    // });
     win.on ('dom-loaded', () => {
         // console.log ('DOM Content Loaded event caught!!!');
         
@@ -178,21 +183,24 @@ function createWindow () {
             console.log ('2 sec timeout');
         }, 2000);
     });
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
-  })
+    
+    // Emitted when the window is closed.
+    win.on('closed', () => {
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        win = null
+    })
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+
+    console.log ('READY');
     
-    app.registerServiceHandler((str) => {
+    app.registerServiceHandler && app.registerServiceHandler((str) => {
         console.log ('service received something ', str);
         let urlFromService;
         try {
@@ -205,19 +213,19 @@ app.on('ready', () => {
             return;
         }
         
-        console.log (JSON.stringify (urlFromService));
+        // console.log (JSON.stringify (urlFromService));
         
         const sites = getConfiguredSites();
         if (Object.keys (sites).some (
             site => sites[site].checkOnMediaPage (urlFromService)
         )) {
-            win.navigateTo (str, {});
+            navigateTo (win, str, {});
         }
     });
     
     Menu.setApplicationMenu (buildMenu ());
     
-    app.onMacOSNotification ('MediaKeyNextNotification', () => {
+    app.onMacOSNotification && app.onMacOSNotification ('MediaKeyNextNotification', () => {
         console.log ('NEXT KEY!');
         // electron way:
         // https://github.com/RogerTheRabbit/kTube-Desktop-App/blob/13197fd1eefe596be53f959ed8eb26347c50d5a8/client/main.js
@@ -228,14 +236,17 @@ app.on('ready', () => {
         // TODO: create proper KeyEvent
         // MRMediaRemoteCommandSkipForward
         //
-        if (win)
-            win.evaluateJavaScript('document.dispatchEvent(new Event("MediaNextTrack"))');
+        if (win) {
+            // win.evaluateJavaScript('document.dispatchEvent(new Event("MediaNextTrack"))');
+            win.evaluateJavaScript('navigator.mediaSession.actions && navigator.mediaSession.actions.nexttrack()');
+        }
     });
     
-    app.onMacOSNotification ('MediaKeyPreviousNotification', () => {
+    app.onMacOSNotification && app.onMacOSNotification ('MediaKeyPreviousNotification', () => {
         console.log ('PREVIOUS KEY!');
-        if (win)
-        win.evaluateJavaScript('document.dispatchEvent(new Event("MediaPreviousTrack"))');
+        if (win) {
+            win.evaluateJavaScript('navigator.mediaSession.actions && navigator.mediaSession.actions.previoustrack()');
+        }
     });
     
     createWindow();
@@ -243,18 +254,18 @@ app.on('ready', () => {
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
+    // On macOS it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (win === null) {
-    createWindow()
-  }
-})
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (win === null) {
+        createWindow();
+    }
+});
 

@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 #import <ElectrinoFramework/ElectrinoFramework.h>
-#import "ElectrinoFramework/ENOAppDelegate.h"
 
 @interface AppDelegate : ENOAppDelegate <NSApplicationDelegate>
 

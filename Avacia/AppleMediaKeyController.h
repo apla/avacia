@@ -24,14 +24,12 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "singleton.h"
 #import <IOKit/hidsystem/ev_keymap.h>
 
 #import <CoreGraphics/CoreGraphics.h>
 
 #import <AppKit/AppKit.h>
 
-extern NSString * const MediaKeyPlayPauseNotification;
 extern NSString * const MediaKeyNextNotification;
 extern NSString * const MediaKeyPreviousNotification;
 
