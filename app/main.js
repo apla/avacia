@@ -23,27 +23,6 @@ const getConfiguredSites = require ('./configured-sites.js');
 
 const preloadScript = getConfiguredSites.toString() + preload.toString();
 
-
-function shellCmd () {
-    const { spawn } = require('child_process');
-    const ps = spawn('ps', ['ax']);
-
-    ps.stdout.on('data', (data) => {
-        grep.stdin.write(data);
-    });
-    
-    ps.stderr.on('data', (data) => {
-        console.error(`ps stderr: ${data}`);
-    });
-
-    ps.on('close', (code) => {
-      if (code !== 0) {
-      console.log(`ps process exited with code ${code}`);
-      }
-      grep.stdin.end();
-      });
-}
-
 // const domain = 'netflix.com';
 const domain = 'youtube.com';
 const host = sp.getUserDefault ("lastVisitedUrl") || `https://${domain}/`;
@@ -64,7 +43,7 @@ ipcMain.on ('window-state-regular', (event, payload) => {
 
 ipcMain.on ('window-set-aspect-ratio', (event, payload) => {
     // win.setWindowButtonVisibility
-    // console.log ('window-set-aspect-ratio', JSON.stringify(payload));
+    console.log ('window-set-aspect-ratio', JSON.stringify(payload));
     // win.setAspectRatio (payload.aspectRatio);
     resizeWindow(payload[0]);
 });
@@ -238,15 +217,8 @@ function createWindow () {
         // baseURLForDataURL - data urls not implemented
     });
     
-    // menus:
-    // context https://github.com/microsoft/vscode/blob/9eb77263661075b5c8aeff6a97e462809bb21d9c/src/vs/base/browser/contextmenu.ts
-    // https://github.com/microsoft/vscode/blob/9eb77263661075b5c8aeff6a97e462809bb21d9c/src/vs/base/browser/ui/menu/menubar.ts
-    // https://github.com/microsoft/vscode/blob/9451800fe793d87cb968d5241a73e442fda774c5/src/vs/platform/menubar/electron-main/menubar.ts
 
-    // Open the DevTools.
-    // win.webContents.openDevTools()
-
-    // test
+    // TODO: implement preventDefault
     // win.on('page-title-updated', (evt) => {
     //     evt.preventDefault();
     // });
@@ -276,7 +248,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
 
-    console.log ('READY');
+    // console.log ('READY');
     
     app.registerServiceHandler && app.registerServiceHandler((str) => {
         console.log ('service received something ', str);
