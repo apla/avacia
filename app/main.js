@@ -295,9 +295,9 @@ app.on('ready', () => {
         
         const sites = getConfiguredSites();
         if (Object.keys (sites).some (
-            site => sites[site].checkOnMediaPage (urlFromService)
+            site => sites[site].checkOnMediaPage && sites[site].checkOnMediaPage (urlFromService)
         )) {
-            navigateTo (win, str, {});
+            win.loadURL (str, {})
         }
     });
     
