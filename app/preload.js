@@ -184,6 +184,7 @@ function addMediaListeners (currentSiteConfig, mediaEl) {
         }
     } else {
         mediaEl.addEventListener ('loadedmetadata', setMediaMetadata.bind (this, currentSiteConfig));
+        mediaEl.addEventListener ('durationchange', setMediaMetadata.bind (this, currentSiteConfig));
         // TODO: proper handler
         window.addEventListener ('resize', setMediaMetadata.bind (this, currentSiteConfig));
     }
@@ -242,20 +243,50 @@ function setMediaMetadata (currentSiteConfig, {target: mediaEl}) {
 
     if (mediaEl.videoTracks.length) {
         videoPropsLogMsg = `dimensions ${mediaEl.videoWidth}x${mediaEl.videoHeight}, `;
-        const aspectRatio = mediaEl.videoWidth / mediaEl.videoHeight;
-        // window.resizeTo (mediaEl.offsetWidth, fitHeight);
-        window.webkit.messageHandlers.$ipc.postMessage ({
-            channel: 'window-set-aspect-ratio',
-            payload: {aspectRatio}
-        });    
+        
+        /*
+        if (mediaEl.videoWidth === 0 || mediaEl.videoHeight === 0) {
+            var videoDimensionsInterval = setInterval (() => {
+                if (mediaEl.videoWidth === 0 || mediaEl.videoHeight === 0)
+                    return;
+                clearInterval (videoDimensionsInterval);
+                getAspectRatio (mediaEl);
+            }, 500);
+        }
+        */
+        
+        getAspectRatio (mediaEl);
     }
 
     console.log (`media metadata loaded, ${videoPropsLogMsg}duration ${mediaEl.duration}s`);
 }
 
+function getAspectRatio (mediaEl) {
+    const aspectRatio = mediaEl.videoWidth / mediaEl.videoHeight;
+    // window.resizeTo (mediaEl.offsetWidth, fitHeight);
+    const
+        mediaWidth  = parseInt (mediaEl.style.width),
+        mediaHeight = parseInt (mediaEl.style.height);
+    
+    if (!isNaN (aspectRatio)) {
+        window.webkit.messageHandlers.$ipc.postMessage ({
+            channel: 'window-set-aspect-ratio',
+            payload: {aspectRatio}
+        });
+        if (!isNaN (mediaWidth)) {
+            mediaEl.style.height = mediaWidth / aspectRatio;
+        }
+    }
+
+    return {aspectRatio};
+}
+
 function mediaNotPlaying (evt) {
     document.documentElement.classList.remove ('video-playing');
     console.log ('regular state ' + evt.type);
+    if (evt.type === 'pause') {
+        getAspectRatio (evt.target);
+    }
     setRegularWindowState('video-' + evt.type);
 }
 
