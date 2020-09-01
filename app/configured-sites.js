@@ -64,6 +64,8 @@ function getConfiguredSites () {
             },
             checkOnMediaPage (pageUrl = window.location) {
                 // it's important not to include youtube music
+                if (pageUrl.hostname === 'youtu.be')
+                    return true;
                 return pageUrl.hostname.match (/^(?:www\.)?youtube\.com$/)
                 && !pageUrl.hostname.match (/^music\.youtube\.com$/)
                 && pageUrl.pathname === '/watch';
