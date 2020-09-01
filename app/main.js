@@ -1,12 +1,6 @@
-const {app, BrowserWindow, session, ipcMain, Menu, shell, screen} = require ('electron');
-try {
-    var {Preferences, XMLHttpRequest} = require ('electrino');
-} catch (err) {
-    var Preferences = {
-        fetch () {},
-        store () {}
-    }
-}
+const {
+    app, BrowserWindow, session, ipcMain, Menu, shell, screen, systemPreferences: sp
+} = require ('electron');
 
 const path   = require('path');
 const url    = require('url');
@@ -52,7 +46,7 @@ function shellCmd () {
 
 // const domain = 'netflix.com';
 const domain = 'youtube.com';
-const host = Preferences.fetch ({key: "lastVisitedUrl"}) || `https://${domain}/`;
+const host = sp.getUserDefault ("lastVisitedUrl") || `https://${domain}/`;
 
 ipcMain.on ('window-state-playing', (event, payload) => {
     // win.setWindowButtonVisibility
@@ -144,7 +138,7 @@ function buildMenu () {
             {
                 label: "Open current url in browser",
                 click () {
-                    win.evaluateJavaScript('window.location.toString()').then (currentUrl => shell.openExternal (currentUrl));
+                    win.webContents.evaluateJavaScript('window.location.toString()').then (currentUrl => shell.openExternal (currentUrl));
                 }
             
             }
@@ -157,7 +151,7 @@ function buildMenu () {
 }
 
 function navigateTo (win, url, options) {
-    Preferences.store ({key: "lastVisitedUrl", value: url});
+    sp.setUserDefault ("lastVisitedUrl", url);
     win.loadURL (url, options);
 }
 
@@ -274,15 +268,15 @@ app.on('ready', () => {
         // MRMediaRemoteCommandSkipForward
         //
         if (win) {
-            // win.evaluateJavaScript('document.dispatchEvent(new Event("MediaNextTrack"))');
-            win.evaluateJavaScript('navigator.mediaSession.actions && navigator.mediaSession.actions.nexttrack()');
+            // win.webContents.evaluateJavaScript('document.dispatchEvent(new Event("MediaNextTrack"))');
+            win.webContents.evaluateJavaScript('navigator.mediaSession.actions && navigator.mediaSession.actions.nexttrack()');
         }
     });
     
     app.onMacOSNotification && app.onMacOSNotification ('MediaKeyPreviousNotification', () => {
         console.log ('PREVIOUS KEY!');
         if (win) {
-            win.evaluateJavaScript('navigator.mediaSession.actions && navigator.mediaSession.actions.previoustrack()');
+            win.webContents.evaluateJavaScript('navigator.mediaSession.actions && navigator.mediaSession.actions.previoustrack()');
         }
     });
     
