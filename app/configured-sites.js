@@ -311,6 +311,48 @@ function getConfiguredSites () {
 
             },
         },
+        " Music": {
+            order: 203,
+            siteMediaType: 'audio',
+            baseUrl: 'https://beta.music.apple.com/',
+            getInjectCss () {
+                
+                if (
+                    !window.location.hostname.match (/music\.apple\.com$/)
+                ) {
+                    return;
+                }
+                return `
+                    /*
+                    allple already have user-drag style all over
+                    and because of this music track not dragging
+                    */
+                    .web-navigation>button.menuicon {top: 8px;}
+                    
+                    h1.web-navigation__header {left: 65px;}
+                `;
+            },
+            checkOnMediaPage (pageUrl = window.location) {
+                
+                /*
+                if (!navigator.mediaSession.actions.previoustrack.element) {
+                    const el = document.querySelector ('#main > div > div.Root__top-container > div.Root__now-playing-bar > footer > div > div.now-playing-bar__center > div > div.player-controls__buttons > div:nth-child(2) > button[data-testid="control-button-skip-back"]');
+                    if (el) navigator.mediaSession.actions.previoustrack.element = el;
+                }
+                
+                if (!navigator.mediaSession.actions.nexttrack.element) {
+                    const el = document.querySelector ('#main > div > div.Root__top-container > div.Root__now-playing-bar > footer > div > div.now-playing-bar__center > div > div.player-controls__buttons > div:nth-child(4) > button[data-testid="control-button-skip-forward"]');
+                    if (el) navigator.mediaSession.actions.nexttrack.element = el;
+                }
+                */
+                
+                return pageUrl.hostname.match (/music\.apple\.com$/);
+            },
+            getMediaInfo () {
+                
+
+            },
+        },
     };
 }
 
