@@ -184,10 +184,10 @@ function getConfiguredSites () {
                     ytmusic-search-box.ytmusic-nav-bar {top: 75px;}
 
                     /* playlist */
-                    ytmusic-player-page#player-page div#main-panel[style] {padding: 0 !important; width: 25vw;}
+                    @media (min-width: 600px) and (max-width: 935px) ytmusic-player-page#player-page div#main-panel[style] {padding: 0 !important; width: 25vw;}
 
-                    @media (max-width: 450px) ytmusic-player-page#player-page>div.content.ytmusic-player-page {flex-direction: column;}
-                    ytmusic-player-page#player-page>div.content.ytmusic-player-page {flex-direction: row; padding: 0;}
+                    @media (max-width: 600px) ytmusic-player-page#player-page>div.content.ytmusic-player-page {flex-direction: column;}
+                    @media (min-width: 600px) and (max-width: 935px) ytmusic-player-page#player-page>div.content.ytmusic-player-page {flex-direction: row; padding: 0;}
                     ytmusic-player-page#player-page>div.content.ytmusic-player-page>div.side-panel.classic {width: auto; margin: 0;}
                 `;
             },
