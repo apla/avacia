@@ -66,7 +66,7 @@ ipcMain.on ('window-set-aspect-ratio', (event, payload) => {
     // win.setWindowButtonVisibility
     // console.log ('window-set-aspect-ratio', JSON.stringify(payload));
     // win.setAspectRatio (payload.aspectRatio);
-    
+    resizeWindow(payload[0]);
 });
 
 function resizeWindow (constraint) {
@@ -80,14 +80,27 @@ function resizeWindow (constraint) {
         override.width = Math.ceil(displayBounds.width * constraint.width);
         if (Math.abs (winBounds.x - displayBounds.x) > Math.abs ((winBounds.x + winBounds.width) - (displayBounds.x + displayBounds.width))
         ) {
-            override.x = (winBounds.x + winBounds.width) - override.width;
+            override.x = winBounds.x - (override.width - winBounds.width);
         }
+        // console.log ("old width %@, old x %@, new width %@, new x %@", winBounds.width, winBounds.x, override.width, override.x);
     }
-    console.log ("old width %@, old x %@, new width %@, new x %@", winBounds.width, winBounds.x, override.width, override.x);
+    if ('aspectRatio' in constraint && !isNaN (constraint.aspectRatio)) {
+        override.height = Math.ceil (winBounds.width / constraint.aspectRatio);
+        console.log (JSON.stringify (winBounds));
+        // top half of the screen
+        if (Math.abs (winBounds.y - displayBounds.y) > Math.abs ((winBounds.y + winBounds.height) - (displayBounds.y + displayBounds.height))) {
+            
+            override.y = winBounds.y - (override.height - winBounds.height);
+        }
+        console.log (`old height ${winBounds.height}, new height ${override.height}`);
+    }
+    
     win.setBounds({
         ...winBounds,
         ...override
     }, true);
+    
+    return {winBounds, override};
 }
 
 function buildMenu () {
