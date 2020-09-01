@@ -118,6 +118,37 @@ function buildMenu () {
         site => ({label: site, click () {navigateTo (win, sites[site].baseUrl, {})}})
     );
 
+    /** @type {Array} */
+    const playbackSubmenu = [{
+        label: 'Video speed',
+        submenu: [{
+            label: '0.5x',
+            click () {
+                win.webContents.evaluateJavaScript('var _ena_v = document.getElementsByTagName ("video"); if (_ena_v && _ena_v.length) _ena_v[0].playbackRate = 0.5');
+            }
+        }, {
+            label: '1x',
+            click () {
+                win.webContents.evaluateJavaScript('var _ena_v = document.getElementsByTagName ("video"); if (_ena_v && _ena_v.length) _ena_v[0].playbackRate = 1');
+            }
+        }, {
+            label: '2x',
+            click () {
+                win.webContents.evaluateJavaScript('var _ena_v = document.getElementsByTagName ("video"); if (_ena_v && _ena_v.length) _ena_v[0].playbackRate = 2');
+            }
+        }],    
+    }];
+
+    if (!sp.isTrustedAccessibilityClient()) {
+        playbackSubmenu.push ({
+            label: 'Permit ◀︎◀︎ / ▶︎▶︎ buttons',
+            click () {
+                shell.openExternal ('x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility');
+            }
+        
+        });
+    }
+
     // Sources, (IINA) Playback, Audio, Video, Subtitles
     const menu = Menu.buildFromTemplate([{
         role: 'appMenu',
@@ -156,6 +187,9 @@ function buildMenu () {
             
             }
         ],
+    }, {
+        label: 'Playback',
+        submenu: playbackSubmenu,
     }, {
         role: 'windowMenu',
     }]);
