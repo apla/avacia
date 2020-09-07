@@ -1,11 +1,141 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Electrino <script>document.write(process.versions.electrino)</script>.
-  </body>
+<html lang="en">
+
+<head>
+	<script src="https://unpkg.com/buble-jsx-only@0.19.8/dist/buble-browser-deps.umd.js"
+		bundle:action="ignore"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/preact/10.4.8/preact.umd.min.js"
+		bundle:local="js/preact.umd.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/preact/10.4.8/hooks.umd.min.js"
+		bundle:local="js/preact.umd.min.js"></script>
+
+	<meta charset="utf-8" />
+
+	<link rel="stylesheet" href="index.css" />
+
+	<script src="./configured-sites.js"></script>
+
+	<script type="text/babel" real-type="module">
+
+		// import { h, render } from "https://cdnjs.cloudflare.com/ajax/libs/preact/10.4.8/preact.module.min.js";
+		// import { useState } from "https://cdnjs.cloudflare.com/ajax/libs/preact/10.4.8/hooks.module.min.js";
+
+		const { h, render } = preact;
+		const { useState, useRef, useEffect } = preactHooks;
+
+		const { ipcRenderer } = require('electron');
+
+		const sites = getConfiguredSites();
+
+		function convertSiteProps(site) {
+			return {
+				id: site,
+				label: site,
+				url: sites[site].baseUrl,
+				logo: sites[site].logo || site + '.svg',
+				icon: sites[site].icon || site + '-Icon.svg',
+				click() {
+					navigateTo(win, sites[site].baseUrl, {})
+				}
+			};
+		}
+
+		const videoSites = Object.keys(sites).filter(
+			site => sites[site].siteMediaType === 'video'
+		).map(convertSiteProps);
+
+		const audioSites = Object.keys(sites).filter(
+			site => sites[site].siteMediaType === 'audio'
+		).map(convertSiteProps);
+
+		function SiteIcon({ site }) {
+			const [liClass, setLiClass] = useState('');
+			return <li class={liClass} key={site.id}><a href={site.url} onclick={() => { setLiClass("pulsing") }}>
+				<img style={{ height: "100px" }} src={"./images/" + site.icon} />
+				<div>{site.label}</div>
+			</a></li>;
+		}
+
+		function SiteIconRow({ sites }) {
+			return <ul class="site-icon-row"> {
+				sites.map(site => <SiteIcon site={site} />)
+			} </ul>;
+		}
+
+		function MultimediaKeysMessage() {
+			const [appConfig, setAppConfig] = useState({});
+
+			function appConfigHandler(event, appConfigObject) {
+				console.log('ACCESSIBILITY CLIENT', appConfigObject.isTrustedAccessibilityClient);
+				setAppConfig(appConfigObject);
+			}
+
+			useEffect(() => {
+				ipcRenderer.on('appConfig', appConfigHandler);
+				// window.addEventListener('ipcRenderer:appConfig', appConfigHandler);
+
+				ipcRenderer.send('app-ready');
+				// window.webkit.messageHandlers.$ipc.postMessage ({
+				// 	channel: 'app-ready',
+				// });
+
+				return () => {
+					ipcRenderer.removeEventListener('appConfig', appConfigHandler);
+					// window.removeEventListener('ipcRenderer:appConfig', appConfigHandler);
+				};
+			}, []);
+
+			if (!('isTrustedAccessibilityClient' in appConfig) || appConfig.isTrustedAccessibilityClient) {
+				return <div></div>;
+			}
+
+			return <div class="message">
+				<div class="warn">
+					<p>
+						Previous track ◀︎◀︎ and next track ▶︎▶︎ key handlers
+						will not work until enabled by user.
+						To do so, you need to set checkbox
+						next to Avacia.app in the Accessibility section
+						of System preferences.
+					</p>
+					<p>
+						Then application should be relaunched.
+					</p>
+				</div>
+				<div>
+					<button onclick={() => {
+						ipcRenderer.send('open-accessibility-prefs');
+						// window.webkit.messageHandlers.$ipc.postMessage ({
+						// 	channel: 'open-accessibility-prefs',
+						// });
+					}}>Open Accessibility Preferences</button>
+				</div>
+			</div>;
+		}
+
+		function MainView() {
+			return (<div>
+				<div class="sites">
+					<h4>Watch</h4>
+					<SiteIconRow sites={videoSites} />
+					<h4>Listen</h4>
+					<SiteIconRow sites={audioSites} />
+				</div>
+				<MultimediaKeysMessage />
+			</div>);
+		}
+
+		render(<MainView />, document.getElementById("app"));
+
+	</script>
+
+	<script src="buble-convert-jsx.js" bundle:action="ignore"></script>
+
+</head>
+
+<body>
+	<div id="page-title">Avacia Showroom</div>
+	<main id="app"></main>
+</body>
+
 </html>

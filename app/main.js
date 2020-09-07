@@ -82,6 +82,21 @@ function resizeWindow (constraint) {
     return {winBounds, override};
 }
 
+function updateAppConfig () {
+    win && win.webContents.send ('appConfig', {
+        isTrustedAccessibilityClient: sp.isTrustedAccessibilityClient(),
+    });
+}
+
+ipcMain.on ('app-ready', (event, payload) => {
+    updateAppConfig();
+});
+
+ipcMain.on ('open-accessibility-prefs', (event, payload) => {
+    shell.openExternal ('x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility');
+});
+
+
 function buildMenu () {
 
     const sites = getConfiguredSites();
@@ -154,6 +169,11 @@ function buildMenu () {
     }, {
         label: 'Navigation',
         submenu: [
+            {
+                label: "Showroom",
+                click () {navigateTo (win, "file://index.html", {})}
+            },
+            {type: 'separator'},
             ...videoSites,
             {type: 'separator'},
             ...audioSites,
@@ -177,7 +197,7 @@ function buildMenu () {
 }
 
 function navigateTo (win, url, options) {
-    sp.setUserDefault ("lastVisitedUrl", url);
+    sp.setUserDefault ("lastVisitedUrl", "string", url);
     win.loadURL (url, options);
 }
 
@@ -299,6 +319,15 @@ app.on('ready', () => {
         }
     });
     
+    /*
+    // trusted client set once as app launch, don't need it on activation
+    // browser-window-focus
+    app.on ('activate', () => {
+        console.log ('activated');
+        updateAppConfig();
+    })
+    */
+
     createWindow();
 })
 

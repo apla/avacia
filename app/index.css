@@ -1,0 +1,84 @@
+:root {
+    color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+    body {background: #333; color: #eee;}
+    a {color: #eee;}
+    h4 {color: #999;}
+    .message {background: rgb(32, 32, 32, 0.8);}
+}
+
+@media (prefers-color-scheme: light) {
+    body {background: #eee; color: #333;}
+    a {color: #333;}
+    h4 {color: GrayText;}
+    .message {background: rgb(255, 255, 255, 0.8);}
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    -webkit-user-select: none;
+}
+body, body * {
+    -webkit-user-drag: none;
+}
+.sites {
+    height: calc(100vh - 20px);
+    margin-left: 1em;
+}
+
+a {text-decoration: none;}
+ul.site-icon-row {
+    overflow-x: auto;
+    width: 100hw;
+    overflow-y: hidden;
+    height: 150px;
+    white-space: nowrap;
+}
+ul.site-icon-row li {list-style: none; display: inline-block; margin: 0 32px;}
+ul.site-icon-row li div {margin: 16px 0; width: 100%; text-align: center;}
+
+.pulsing {
+    animation: pulse 1s infinite linear;
+}
+
+@keyframes pulse {
+	0%   {opacity: 1;}
+    50%  {opacity: 0.6;}
+	100% {opacity: 1;}
+}
+
+#page-title {
+    text-align: center;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+}
+
+.warn::before {
+    /* content: '⚠ '; */
+    font-family: "Apple Color Emoji";
+    /*
+    width: 1em;
+    line-height: 1em;
+    display: inline-block;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 1em;
+    border: 2px solid #ff0;
+    background: #ff0;
+    */
+}
+
+.message {
+    position: absolute;
+    bottom: 0;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.message button {
+    float: right;
+}
