@@ -217,6 +217,10 @@ function getConfiguredSites () {
 
                 return mediaInfo;
             },
+            togglePlaylist () {
+                // spotify has two of those - for audio and video, click works of either of them
+                return document.querySelector ('#right-controls > paper-icon-button.toggle-player-page-button.style-scope.ytmusic-player-bar').click()
+            }
         },
 
         "Spotify": {
@@ -310,26 +314,37 @@ function getConfiguredSites () {
                 }
 
             },
+            togglePlaylist () {
+                // spotify has two of those - for audio and video, click works of either of them
+                return document.querySelector ('button.control-button.spoticon-queue-16').click()
+            }
         },
-        " Music": {
+        "Amazon Music": {
             order: 203,
             siteMediaType: 'audio',
-            baseUrl: 'https://beta.music.apple.com/',
+            baseUrl: 'https://music.amazon.com',
             getInjectCss () {
                 
                 if (
-                    !window.location.hostname.match (/music\.apple\.com$/)
+                    !window.location.hostname.match (/amazon\.com$/)
                 ) {
                     return;
                 }
                 return `
-                    /*
-                    allple already have user-drag style all over
-                    and because of this music track not dragging
-                    */
-                    .web-navigation>button.menuicon {top: 8px;}
-                    
-                    h1.web-navigation__header {left: 65px;}
+                /* top bar */
+                nav#navbar * {-webkit-user-drag: none;}
+
+                /* play bar */
+                div#transport * {-webkit-user-drag: none;}
+                
+                /* lyrics player */
+                div#npv * {-webkit-user-drag: none;}
+                
+                /* modal */
+                div#dialog * {-webkit-user-drag: none;}
+
+                /* auth page navbar */
+                div.auth-navbar * {-webkit-user-drag: none;}
                 `;
             },
             checkOnMediaPage (pageUrl = window.location) {
@@ -346,6 +361,50 @@ function getConfiguredSites () {
                 }
                 */
                 
+                return pageUrl.hostname.match (/^music\.amazon\.com$/);
+            },
+            getMediaInfo () {
+                // never runs on spotify
+                
+                // album accessible, but only through queue interface
+                var nowPlayingNodes = document.querySelectorAll (
+                    '.Root__now-playing-bar .now-playing-bar__left div.now-playing .react-contextmenu-wrapper'
+                );
+                
+                // spotify already knows about media info
+                return {
+                    title: nowPlayingNodes[0].textContent,
+                    artist: nowPlayingNodes[1].textContent,
+                }
+                
+            },
+            togglePlaylist () {
+                // spotify has two of those - for audio and video, click works of either of them
+                return document.querySelector ('button.control-button.spoticon-queue-16').click()
+            }
+        },
+        /*
+        " Music": {
+            order: 204,
+            siteMediaType: 'audio',
+            baseUrl: 'https://beta.music.apple.com/',
+            getInjectCss () {
+                
+                if (
+                    !window.location.hostname.match (/music\.apple\.com$/)
+                ) {
+                    return;
+                }
+                // allple already have user-drag style all over
+                // and because of this music track not dragging
+                return `
+                    .web-navigation>button.menuicon {top: 8px;}
+                    
+                    h1.web-navigation__header {left: 65px;}
+                `;
+            },
+            checkOnMediaPage (pageUrl = window.location) {
+                
                 return pageUrl.hostname.match (/music\.apple\.com$/);
             },
             getMediaInfo () {
@@ -353,7 +412,8 @@ function getConfiguredSites () {
 
             },
         },
+        */
     };
 }
 
-module.exports = getConfiguredSites;
+if (typeof module !== "undefined") module.exports = getConfiguredSites;
