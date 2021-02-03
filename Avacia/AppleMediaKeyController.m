@@ -27,7 +27,6 @@
 
 #import "AppleMediaKeyController.h"
 
-NSString * const MediaKeyPlayPauseNotification = @"MediaKeyPlayPauseNotification";
 NSString * const MediaKeyNextNotification = @"MediaKeyNextNotification";
 NSString * const MediaKeyPreviousNotification = @"MediaKeyPreviousNotification";
 
@@ -60,7 +59,7 @@ CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef 
   if([nsEvent subtype] != 8)
     return event;
   
-  int data = [nsEvent data1];
+  int data = [nsEvent data1] & 0xFFFFFFFF;
   int keyCode = (data & 0xFFFF0000) >> 16;
   int keyFlags = (data & 0xFFFF);
   int keyState = (keyFlags & 0xFF00) >> 8;
@@ -71,12 +70,6 @@ CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef 
   
   NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
   switch (keyCode) {
-    case NX_KEYTYPE_PLAY:
-      if(keyState == NX_KEYSTATE_DOWN)
-        [center postNotificationName:MediaKeyPlayPauseNotification object:(__bridge AppleMediaKeyController *)refcon];
-      if(keyState == NX_KEYSTATE_UP || keyState == NX_KEYSTATE_DOWN)
-        return NULL;
-      break;
     case NX_KEYTYPE_FAST:
       if(keyState == NX_KEYSTATE_DOWN)
         [center postNotificationName:MediaKeyNextNotification object:(__bridge AppleMediaKeyController *)refcon];
@@ -91,6 +84,17 @@ CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef 
       break;
   }
   return event;
+}
+
++(void)sendKey:(int)keycode down:(BOOL)down {
+    // func doKey(down: Bool) {
+    
+    int data1 = keycode << 16 | (down ? NX_KEYSTATE_DOWN : NX_KEYSTATE_UP);
+
+    NSEvent* keyEvent = [NSEvent otherEventWithType:NSEventTypeSystemDefined location:NSZeroPoint modifierFlags:(down ? NX_KEYSTATE_DOWN : NX_KEYSTATE_UP) timestamp:0 windowNumber:0 context:nil subtype:8 data1:data1 data2:-1];
+
+    CGEventPost(kCGHIDEventTap, keyEvent.CGEvent);
+    
 }
 
 - (id)init {
