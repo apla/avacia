@@ -6,9 +6,9 @@
 //  Copyright © 2020 example. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
-#import <ElectrinoFramework/ElectrinoFramework.h>
+@import ElectrinoFramework;
 
 @interface AppDelegate : ENOAppDelegate <NSApplicationDelegate>
 
