@@ -243,10 +243,12 @@ function getConfiguredSites () {
                     /* spotify login */
                     .ng-scope div.head, .ng-scope div.head * {-webkit-user-drag: none;}
                     
+                
                     /* spotify bar (open) */
                     html.spotify__os--is-macos .now-playing-bar-container *,
-                    html.spotify__os--is-macos .Root__nav-bar>nav>div,
-                    html.spotify__os--is-macos .Root__nav-bar>nav>div *,
+                    html.spotify__os--is-macos .Root__nav-bar>div>div,
+                    html.spotify__os--is-macos .Root__nav-bar>div>div *,
+                    html.spotify__os--is-macos .Root__nav-bar>div>div[role=banner] *,
                     div[data-test-id="topbar-content-wrapper"] {
                         -webkit-user-drag: none;
                     }
@@ -264,19 +266,25 @@ function getConfiguredSites () {
                     html.spotify__os--is-macos body {min-height: auto;}
                     html.spotify__os--is-macos .contentSpacing {padding: 0 5px 60px;}
                     html.spotify__os--is-macos .Root__nav-bar .Rootlist {overflow-y: scroll; padding-bottom: 60px;}
-                    html.spotify__os--is-macos .Root__nav-bar>nav {padding: 0 0 60px;}
+                    html.spotify__os--is-macos .Root__nav-bar>div {padding: 0 0 60px;}
+                    
+                    /* spotify logo */
+                    html.spotify__os--is-macos .Root__nav-bar>div {
+                        padding-top: 0;
+                    }
                     html.spotify__os--is-macos .Root__nav-bar a.logo {padding: 10px 0 0 75px;}
-                    html.spotify__os--is-macos .Root__nav-bar>nav>ul>li:first-of-type {display:none;}
-                    html.spotify__os--is-macos .Root__nav-bar>nav>ul>li:nth-of-type(2) {position: absolute; top: 10px; left: 272px;}
-                    html.spotify__os--is-macos .Root__nav-bar>nav>ul>li:nth-of-type(2) a {background: none;}
-                    html.spotify__os--is-macos .Root__nav-bar>nav>ul>li:nth-of-type(2) span {display: none;}
-                    html.spotify__os--is-macos .Root__nav-bar>nav>ul>div:nth-of-type(3)>div a {display: none;}
+                    html.spotify__os--is-macos .Root__nav-bar>div>ul>li:first-of-type {display:none;}
+                    html.spotify__os--is-macos .Root__nav-bar>div>ul>li:nth-of-type(2) {position: absolute; top: 10px; left: 272px;}
+                    html.spotify__os--is-macos .Root__nav-bar>div>ul>li:nth-of-type(2) a {background: none;}
+                    html.spotify__os--is-macos .Root__nav-bar>div>ul>li:nth-of-type(2) span {display: none;}
+				    /* app download link */
+                    html.spotify__os--is-macos .Root__nav-bar>div>div:last-of-type {display: none;}
                     div[data-test-id="topbar-content-wrapper"] {padding: 40px;}
                     @media screen and (min-width: 1024px) {
-                        html.spotify__os--is-macos .Root__nav-bar>nav>ul>li:nth-of-type(2) {position: absolute; top: 10px; left: 340px;}
+                        html.spotify__os--is-macos .Root__nav-bar>div>ul>li:nth-of-type(2) {position: absolute; top: 10px; left: 340px;}
                     }
 
-                    div.volume-bar {display: none;}
+					.Root__now-playing-bar .ExtraControls {justify-content: flex-start;}
                     
                     .now-playing-bar__center {width: 60%;}
                     .now-playing-bar__right {width: 10%; min-width: 75px;}
