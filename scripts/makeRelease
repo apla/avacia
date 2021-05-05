@@ -10,6 +10,10 @@ EXEC_DIR="$PWD"
 
 VERSION=$(node -p "require('./app/package.json').version")
 
+echo "Building Electrino Framework"
+
+XCBUILD_OUT=$(xcodebuild -workspace Avacia.xcworkspace -scheme ElectrinoFramework -configuration Release build 2>&1)
+
 echo "Building ${PROJECT_NAME} version $VERSION"
 
 sed -ie "s/MARKETING_VERSION = [^;]+/MARKETING_VERSION = $VERSION/g" Avacia.xcodeproj/project.pbxproj
