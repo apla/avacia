@@ -12,6 +12,8 @@
 		CD1E8B6424D9359A0082F2F9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD1E8B6224D9359A0082F2F9 /* MainMenu.xib */; };
 		CD1E8B6724D9359A0082F2F9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E8B6624D9359A0082F2F9 /* main.m */; };
 		CD1E8B6F24D935BA0082F2F9 /* app in Resources */ = {isa = PBXBuildFile; fileRef = CD564AB724C2F09C00587CBC /* app */; };
+		CDA940C024EF1A76004C45A8 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = CDA940BF24EF1A76004C45A8 /* Credits.html */; };
+		CDB4273C25CD52F00053668E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CDB4273B25CD52F00053668E /* README.md */; };
 		CDE3837F24EC60CE0053F00C /* AppleMediaKeyController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE3837E24EC60CE0053F00C /* AppleMediaKeyController.m */; };
 		CDFD5D6224E9118600E7ACD7 /* ElectrinoFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */; };
 		CDFD5D6324E9118600E7ACD7 /* ElectrinoFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -52,6 +54,8 @@
 		CD1E8B6624D9359A0082F2F9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CD1E8B6824D9359A0082F2F9 /* Avacia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Avacia.entitlements; sourceTree = "<group>"; };
 		CD564AB724C2F09C00587CBC /* app */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app; sourceTree = "<group>"; };
+		CDA940BF24EF1A76004C45A8 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
+		CDB4273B25CD52F00053668E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CDE3836024EBF47B0053F00C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CDE3837D24EC60CE0053F00C /* AppleMediaKeyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleMediaKeyController.h; sourceTree = "<group>"; };
 		CDE3837E24EC60CE0053F00C /* AppleMediaKeyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleMediaKeyController.m; sourceTree = "<group>"; };
@@ -72,6 +76,7 @@
 		CD1E8B5C24D935980082F2F9 /* Avacia */ = {
 			isa = PBXGroup;
 			children = (
+				CDA940BF24EF1A76004C45A8 /* Credits.html */,
 				CDE3837D24EC60CE0053F00C /* AppleMediaKeyController.h */,
 				CDE3837E24EC60CE0053F00C /* AppleMediaKeyController.m */,
 				CD1E8B5D24D935980082F2F9 /* AppDelegate.h */,
@@ -88,6 +93,7 @@
 		CD61F56324C2E0F800623B5B = {
 			isa = PBXGroup;
 			children = (
+				CDB4273B25CD52F00053668E /* README.md */,
 				CD1E8B5024D751DD0082F2F9 /* ElectrinoFramework.framework */,
 				CD564AB724C2F09C00587CBC /* app */,
 				CD1E8B5C24D935980082F2F9 /* Avacia */,
@@ -95,6 +101,7 @@
 				CDFD5D6124E9118600E7ACD7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		CD61F56D24C2E0F800623B5B /* Products */ = {
 			isa = PBXGroup;
@@ -142,7 +149,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
 				LastUpgradeCheck = 1030;
-				ORGANIZATIONNAME = example;
+				ORGANIZATIONNAME = apla.me;
 				TargetAttributes = {
 					CD1E8B5A24D935980082F2F9 = {
 						CreatedOnToolsVersion = 10.3;
@@ -178,6 +185,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD1E8B6F24D935BA0082F2F9 /* app in Resources */,
+				CDA940C024EF1A76004C45A8 /* Credits.html in Resources */,
+				CDB4273C25CD52F00053668E /* README.md in Resources */,
 				CD1E8B6124D9359A0082F2F9 /* Assets.xcassets in Resources */,
 				CD1E8B6424D9359A0082F2F9 /* MainMenu.xib in Resources */,
 			);
@@ -217,12 +226,14 @@
 				CODE_SIGN_ENTITLEMENTS = avacia/avacia.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = avacia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.1;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.apla.avacia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -235,12 +246,14 @@
 				CODE_SIGN_ENTITLEMENTS = avacia/avacia.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = avacia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.1;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.apla.avacia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
