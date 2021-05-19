@@ -8,7 +8,7 @@ intro_image_hide_on_mobile: false
 
 # Why Avacia
 
-Avacia — that a misspelled «ovacio», when people clapping hands for performing artists. I've started working on Avacia in 2020, on lockdown, when we cannot have any live performances.
+Avacia is a misspelled «ovacio», when people are clapping hands for performing artists. I've started working on Avacia in 2020 during lockdown, when we could not have any live performances.
 
-Second meaning is a belarussian word «Авацыя», which means the same with belarussian taste. In 2021 passed 10 years after dictatorship regime in Belarus make clapping outlawed as a form of people protest. 
+Its second meaning is a belarussian word «Авацыя», which means the same, but with belarussian flavour. In 2021 it was 10 years since the dictatorship regime in Belarus made clapping outlawed as a form of people protest. 
 
