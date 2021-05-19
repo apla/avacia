@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ viewBox="425 230 449 194">
+<style>
+	line.strike, path.letter {
+		stroke-width: 2;
+		stroke: rgb(0,0,0);
+		stroke-linejoin: miter;
+		stroke-linecap: round;
+		stroke-miterlimit: 3;
+	}
+    path.letter {
+		fill-rule: evenodd;
+		fill: none;
+		stroke-width: 10;
+	}
+</style>
+<g>
+<path d=" M 433 416 L 463 238 M 463 238 L 531 416" class="letter"/>
+<path d=" M 562 416 L 592 238 M 494 238 L 562 416" class="letter"/>
+<path d=" M 715 416 M 744 238 L 647 238 L 715 416" class="letter"/>
+<path d=" M 744 416 L 774 238 M 744 416" class="letter"/>
+<line x1="433" y1="376" x2="502" y2="310" class="strike"/>
+<path d=" M 768 416 L 798 238 M 798 238 L 866 416" class="letter"/>
+<line x1="768" y1="376" x2="837" y2="310" class="strike"/>
+<path d=" M 587 416 L 617 238 M 617 238 L 685 416" class="letter"/>
+<line x1="587" y1="376" x2="656" y2="310" class="strike"/>
+</g>
+</svg>

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Github",
+    "link": "https://github.com/apla/avacia",
+    "image": "images/social/github.svg"
+  },
+  {
+    "name": "Telegram",
+    "link": "https://t.me/avacia_app",
+    "image": "images/social/telegram.svg"
+  }
+]

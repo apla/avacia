@@ -1,0 +1,56 @@
+baseurl: '/avacia/'
+permalink: pretty
+title: 'Avacia'
+
+google_analytics_id: ""
+
+homepage:
+  show_call_box: false
+
+logo:
+  mobile: "images/logo/avacia.svg"
+  desktop: "images/logo/avacia.svg"
+  desktop_height: "36px"
+
+footer:
+  copyright_text: 'Free streaming player'
+
+seo:
+  meta_og_title: "Avacia streaming player"
+  meta_og_type: "website"
+  meta_og_url: "https://apla.github.io/avacia/"
+  meta_og_image: "https://raw.githubusercontent.com/apla/avacia/docs/assets/images/screenshots/netflix-short.png"
+  meta_og_description: "Avacia is a music and video player for online streaming providers"
+  meta_twitter_card: "summary"
+  meta_twitter_site: "@apla_me"
+  meta_twitter_creator: "@apla_me"
+
+collections:
+  features:
+    output: true
+  services:
+    output: true
+  providers:
+    output: true
+  team:
+    output: true
+
+sass:
+  indentWidth: 4
+  style: compact # possible values: nested expanded compact compressed
+  precision: 10
+
+plugins:
+  - jekyll-environment-variables
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - LICENSE.md
+  - LICENSE
+  - README.md

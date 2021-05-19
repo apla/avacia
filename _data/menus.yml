@@ -1,0 +1,18 @@
+main:
+  - name: "Download"
+    url: "https://github.com/apla/avacia/releases/"
+    weight: 3
+  - name: "Source code"
+    url: "https://github.com/apla/avacia/"
+    weight: 4
+
+footer:
+  - name: "Home"
+    url: "/"
+    weight: 1
+  - name: "About"
+    url: "/about/"
+    weight: 2
+  - name: "Contact"
+    url: "/contact/"
+    weight: 3

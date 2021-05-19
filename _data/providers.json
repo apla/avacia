@@ -1,0 +1,17 @@
+[{
+	"title": "Spotify",
+	"logo": "Spotify.svg",
+	"kind": "music"
+}, {
+	"title": "Netflix",
+	"logo": "Netflix.svg",
+	"kind": "video"
+}, {
+	"title": "Vimeo",
+	"logo": "Vimeo.svg",
+	"kind": "video"
+}, {
+	"title": "YouTube",
+	"logo": "YouTube.svg",
+	"kind": "video"
+}]
