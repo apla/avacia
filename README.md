@@ -2,6 +2,8 @@
 
 Streaming media player, built with electron-like framework
 
+[![screenshot](https://apla.github.io/avacia/images/screenshots/netflix-short@2x.jpg)](https://apla.github.io/avacia/)
+
 ## Install
 
 Download Avacia.app from releases, then execute `sudo xattr -d com.apple.quarantine Avacia.app` from Terminal.
