@@ -7,8 +7,8 @@ weight: 1
 layout: service
 ---
 
-Avacia is written using JavaScript. And already fixes things for sites using JavaScript.
+Avacia is written with JavaScript, and already fixes things for sites using JavaScript.
 
-Unlikely the Avacia author is going to add ads-skipping techniques, but you can! I'm really open to suggestions how to add **optional** ads skipping.
+It is unlikely that the Avacia author is going to add ads-skipping techniques, but you can! I'm open to suggestions how to add **optional** ads skipping.
 
 While you are planning and implementing ads skipping, please consider paying part of my ad-free media experience by donating.
