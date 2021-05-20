@@ -1,8 +1,9 @@
 main:
   - name: "Download"
-    url: "https://github.com/apla/avacia/releases/"
+    url: "/download/"
     weight: 3
   - name: "Source code"
+    icon: "github"
     url: "https://github.com/apla/avacia/"
     weight: 4
 
