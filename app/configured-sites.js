@@ -36,6 +36,13 @@ function getConfiguredSites () {
                 && pageUrl.pathname.match (/^\/watch\/\d+$/);
             },
             getMediaInfo () {
+				// audio and subtitles tracks
+				// .track-list.structural.track-list-audio li.track - audio tracks
+				// .track-list.structural.track-list-subtitles li.track - subtitles
+				// li.track.selected
+				// episodes
+				// .episode-list .nfp-episode-expander .title-container span.number - number
+				// .episode-list .nfp-episode-expander .title-container h3.title - title
                 return {
                     title: document.querySelector('div.video-title>h4').textContent
                 }
@@ -169,7 +176,7 @@ function getConfiguredSites () {
         },
 
         "YouTube Music": {
-            order: 201,
+            order: 202,
             siteMediaType: 'audio',
             baseUrl: 'https://music.youtube.com',
             getInjectCss () {
@@ -230,7 +237,7 @@ function getConfiguredSites () {
         },
 
         "Spotify": {
-            order: 202,
+            order: 201,
             siteMediaType: 'audio',
             baseUrl: 'https://open.spotify.com',
             getInjectCss () {
@@ -431,7 +438,7 @@ function getConfiguredSites () {
 
         /*
         " Music": {
-            order: 204,
+            order: 205,
             siteMediaType: 'audio',
             baseUrl: 'https://beta.music.apple.com/',
             getInjectCss () {
