@@ -37,7 +37,16 @@ ul.site-icon-row {
     white-space: nowrap;
 }
 ul.site-icon-row li {list-style: none; display: inline-block; margin: 0 32px;}
-ul.site-icon-row li div {margin: 16px 0; width: 100%; text-align: center;}
+ul.site-icon-row li a.provider div.icon {width: 100px;}
+ul.site-icon-row li a.provider div.icon img {
+/*	display: block;*/
+	width: 100%;
+	max-height: 100px;
+	position: relative;
+	top: 50%;
+/*	transform: translateY(-50%);*/
+}
+ul.site-icon-row li a.provider div.title {margin: 16px 0; width: 100%; text-align: center;}
 
 .pulsing {
     animation: pulse 1s infinite linear;

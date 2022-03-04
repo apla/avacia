@@ -1,3 +1,16 @@
+const {ipcRenderer} = require ('electron');
+
+// TODO: make this identical for chrome and WKWebView
+const process = require ('process');
+if (process.versions.chrome) {
+	const path = require ('path');
+	window.ipcRenderer = ipcRenderer;
+	window.getConfiguredSites = require (path.join(__dirname, 'configured-sites.js'));
+	console.log (window, ipcRenderer, getConfiguredSites);
+
+} else {
+	window.ipcRenderer = ipcRenderer;
+}
 
 window.addEventListener ('contextmenu', (evt) => {
     console.log (evt);
@@ -83,7 +96,7 @@ if (!("mediaSession" in navigator)) {
     navigator.mediaSession = new _MediaSession ();
 }
 
-const sites = getConfiguredSites();
+const sites = window.getConfiguredSites();
 let currentSite;
 
 var havePlayingVideo = false;
@@ -289,7 +302,6 @@ function mediaNotPlaying (evt) {
     }
     setRegularWindowState('video-' + evt.type);
 }
-
 
 /*
 

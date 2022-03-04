@@ -22,7 +22,9 @@ function getConfiguredSites () {
                     .pinning-header *,
                     .AkiraPlayer *,
                     .our-story-header-wrapper *,
-                    .login-header * {-webkit-user-drag: none;}
+                    .login-header *,
+				    .previewModal--backDrop,
+				    .previewModal--player-titleTreatmentWrapper {-webkit-user-drag: none; -webkit-app-region: drag;}
                 `;
             },
             checkOnMediaPage (pageUrl = window.location) {
@@ -56,7 +58,7 @@ function getConfiguredSites () {
                     html.video-playing ytd-app {background-color: black;}
                     
                     /* youtube draggable player */
-                    #masthead-container *, #player-theater-container * {-webkit-user-drag: none;}
+                    #masthead-container *, #player-theater-container * {-webkit-user-drag: none; -webkit-app-region: drag;}
                     
                     /* youtube menu icon */
                     yt-icon-button.ytd-masthead {padding: 15px 8px 8px 8px;}
@@ -120,7 +122,7 @@ function getConfiguredSites () {
                 return `
                     /* vimeo */
                     #topnav_mobile *,
-                    #topnav_desktop * {-webkit-user-drag: none;}
+                    #topnav_desktop * {-webkit-user-drag: none; -webkit-app-region: drag;}
                     
                     html.video-playing #topnav_mobile,
                     html.video-playing #topnav_desktop,
@@ -150,7 +152,7 @@ function getConfiguredSites () {
                 return `
                     /* coub */
 
-                    header.header * {-webkit-user-drag: none;}
+                    header.header * {-webkit-user-drag: none; -webkit-app-region: drag;}
 
                     @media screen and (min-width: 10px) and (max-width: 700px) {
                         html, body {min-width: auto;}
@@ -237,11 +239,11 @@ function getConfiguredSites () {
                 return `
                     /* spotify bar */
                     .mh-header-hover *,
-                    div[data-hypernova-key="MastheadHeader"] * {-webkit-user-drag: none;}
+                    div[data-hypernova-key="MastheadHeader"] * {-webkit-user-drag: none; -webkit-app-region: drag;}
                     .mh-brand-wrapper {margin-right: auto; margin-left: auto;}
                     
                     /* spotify login */
-                    .ng-scope div.head, .ng-scope div.head * {-webkit-user-drag: none;}
+                    .ng-scope div.head, .ng-scope div.head * {-webkit-user-drag: none; -webkit-app-region: drag;}
                     
                 
                     /* spotify bar (open) */
@@ -250,10 +252,9 @@ function getConfiguredSites () {
                     html.spotify__os--is-macos .Root__nav-bar>div>div *,
                     html.spotify__os--is-macos .Root__nav-bar>div>div[role=banner] *,
                     div[data-test-id="topbar-content-wrapper"] {
-                        -webkit-user-drag: none;
+                        -webkit-user-drag: none; -webkit-app-region: drag;
                     }
                     html.spotify__os--is-macos .now-playing-bar-container .progress-bar {-webkit-user-drag: auto;}
-                     {-webkit-user-drag: none;}
                     
                     html.spotify__os--is-macos .now-playing-bar-container {
                         position: absolute;
@@ -340,19 +341,19 @@ function getConfiguredSites () {
                 }
                 return `
                 /* top bar */
-                nav#navbar * {-webkit-user-drag: none;}
+                nav#navbar * {-webkit-user-drag: none; -webkit-app-region: drag;}
 
                 /* play bar */
-                div#transport * {-webkit-user-drag: none;}
+                div#transport * {-webkit-user-drag: none; -webkit-app-region: drag;}
                 
                 /* lyrics player */
-                div#npv * {-webkit-user-drag: none;}
+                div#npv * {-webkit-user-drag: none; -webkit-app-region: drag;}
                 
                 /* modal */
-                div#dialog * {-webkit-user-drag: none;}
+                div#dialog * {-webkit-user-drag: none; -webkit-app-region: drag;}
 
                 /* auth page navbar */
-                div.auth-navbar * {-webkit-user-drag: none;}
+                div.auth-navbar * {-webkit-user-drag: none; -webkit-app-region: drag;}
                 `;
             },
             checkOnMediaPage (pageUrl = window.location) {
@@ -404,14 +405,14 @@ function getConfiguredSites () {
 			  }
 			  return `
 				// first page cookie consent
-			  .onetrust-pc-dark-filter {-webkit-user-drag: none;}
+			  .onetrust-pc-dark-filter {-webkit-user-drag: none; -webkit-app-region: drag;}
 			  
-			#app header.header * {-webkit-user-drag: none;}
+			#app header.header * {-webkit-user-drag: none; -webkit-app-region: drag;}
 			  
-			  #app .frontHero * {-webkit-user-drag: none;}
+			  #app .frontHero * {-webkit-user-drag: none; -webkit-app-region: drag;}
 				  
 				  .playControls .playControls__elements .playControls__control,
-					.playControls .playControls__elements .playControls__soundBadge * {-webkit-user-drag: none;}
+					.playControls .playControls__elements .playControls__soundBadge * {-webkit-user-drag: none; -webkit-app-region: drag;}
 			  `;
 		  },
 		  checkOnMediaPage (pageUrl = window.location) {
@@ -457,4 +458,8 @@ function getConfiguredSites () {
     };
 }
 
-if (typeof module !== "undefined") module.exports = getConfiguredSites;
+if (typeof module !== "undefined"){
+	module.exports = getConfiguredSites;
+} else {
+	window.getConfiguredSites = getConfiguredSites;
+}

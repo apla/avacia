@@ -8,6 +8,8 @@ const fs     = require('fs');
 const os     = require('os');
 const crypto = require('crypto');
 
+const process = require('process');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
@@ -18,14 +20,17 @@ function getFunctionContents (fnBody) {
         .replace(/([\S\s]+)}/s, "$1");
 }
 
-const preload = fs.readFileSync ('preload.js');
+const preloadFilename = 'preload.js';
+const preload = fs.readFileSync (preloadFilename);
 const getConfiguredSites = require ('./configured-sites.js');
 
-const preloadScript = getConfiguredSites.toString() + preload.toString();
+const preloadScript = getConfiguredSites.toString() + "\nglobalThis.getConfiguredSites = getConfiguredSites;\n" + preload.toString();
 
 // const domain = 'netflix.com';
 const domain = 'youtube.com';
-const host = sp.getUserDefault ("lastVisitedUrl") || `https://${domain}/`;
+const host = sp.getUserDefault ("lastVisitedUrl", "string") || `https://${domain}/`;
+
+console.log (app.getPath('appData'), app.getPath('userData'));
 
 ipcMain.on ('window-state-playing', (event, payload) => {
     // win.setWindowButtonVisibility
@@ -133,7 +138,7 @@ function buildMenu () {
         }],    
     }];
 
-    if (!sp.isTrustedAccessibilityClient()) {
+    if (!sp.isTrustedAccessibilityClient(false)) {
         playbackSubmenu.push ({
             label: 'Permit ◀︎◀︎ / ▶︎▶︎ buttons',
             click () {
@@ -196,9 +201,13 @@ function buildMenu () {
     return menu;
 }
 
-function navigateTo (win, url, options) {
-    sp.setUserDefault ("lastVisitedUrl", "string", url);
-    win.loadURL (url, options);
+function navigateTo (win, urlString, options) {
+    sp.setUserDefault ("lastVisitedUrl", "string", urlString);
+    // const url = new URL(urlString); // WKWebView have no URL constructor
+    if (urlString.match(/^file:/)) {
+        return win.loadFile (urlString.replace ('file://', ''), options);
+    }
+    win.loadURL (urlString, options);
 }
 
 function createWindow () {
@@ -212,7 +221,9 @@ function createWindow () {
         webPreferences: {
             devTools: true, // devTools enabled by default, set `devTools` key to `false` to disable
             userAgentAppName: "Version/13.1.2 Safari/605.1.15",
-            preload: preloadScript, // getFunctionContents(preload.toString())
+			enableRemoteModule: false,
+			nodeIntegration: false,
+            preload: process.versions.chrome ? path.join (__dirname, preloadFilename) : preloadScript, // getFunctionContents(preload.toString())
         }
     });
 

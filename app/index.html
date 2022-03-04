@@ -2,11 +2,12 @@
 <html lang="en">
 
 <head>
+	<meta http-equiv="Content-Security-Policy" content="script-src 'self' filesystem: 'unsafe-inline' 'unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline'; object-src 'none';">
 	<script src="https://unpkg.com/buble-jsx-only@0.19.8/dist/buble-browser-deps.umd.js"
 		bundle:action="ignore"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/preact/10.4.8/preact.umd.min.js"
+	<script src="https://unpkg.com/preact@10.4.8/dist/preact.umd.js" cdnjs-src="https://cdnjs.cloudflare.com/ajax/libs/preact/10.4.8/preact.umd.min.js"
 		bundle:local="js/preact.umd.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/preact/10.4.8/hooks.umd.min.js"
+	<script src="https://unpkg.com/preact@10.4.8/hooks/dist/hooks.umd.js" cdnjs-src="https://cdnjs.cloudflare.com/ajax/libs/preact/10.4.8/hooks.umd.min.js"
 		bundle:local="js/preact.umd.min.js"></script>
 
 	<meta charset="utf-8" />
@@ -23,7 +24,7 @@
 		const { h, render } = preact;
 		const { useState, useRef, useEffect } = preactHooks;
 
-		const { ipcRenderer } = require('electron');
+		const ipcRenderer = window.ipcRenderer;
 
 		const sites = getConfiguredSites();
 
@@ -50,9 +51,11 @@
 
 		function SiteIcon({ site }) {
 			const [liClass, setLiClass] = useState('');
-			return <li class={liClass} key={site.id}><a href={site.url} onclick={() => { setLiClass("pulsing") }}>
-				<img style={{ height: "100px" }} src={"./images/" + site.icon} />
-				<div>{site.label}</div>
+			return <li class={liClass} key={site.id}><a href={site.url} class="provider" onclick={() => { setLiClass("pulsing") }}>
+				<div class="icon">
+					<img style={{}} src={"./images/" + site.icon} />
+				</div>
+				<div class="title">{site.label}</div>
 			</a></li>;
 		}
 
