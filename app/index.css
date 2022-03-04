@@ -22,6 +22,7 @@ body {
 }
 body, body * {
     -webkit-user-drag: none;
+	-webkit-app-region: drag;
 }
 .sites {
     height: calc(100vh - 20px);
