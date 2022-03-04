@@ -21,10 +21,14 @@ function getConfiguredSites () {
                     /* netflix draggable header and video player */
                     .pinning-header *,
                     .AkiraPlayer *,
+				    .watch-video *,
                     .our-story-header-wrapper *,
                     .login-header *,
 				    .previewModal--backDrop,
 				    .previewModal--player-titleTreatmentWrapper {-webkit-user-drag: none; -webkit-app-region: drag;}
+					
+					/* after movie icon */
+					.BackToBrowse {top: 4.75em;}
                 `;
             },
             checkOnMediaPage (pageUrl = window.location) {
