@@ -391,6 +391,39 @@ function getConfiguredSites () {
                 return document.querySelector ('button.control-button.spoticon-queue-16').click()
             }
         },
+	  "SoundCloud": {
+		  order: 204,
+		  siteMediaType: 'audio',
+		  baseUrl: 'https://soundcloud.com/',
+		  getInjectCss () {
+			  
+			  if (
+				  !window.location.hostname.match (/soundcloud\.com$/)
+			  ) {
+				  return;
+			  }
+			  return `
+				// first page cookie consent
+			  .onetrust-pc-dark-filter {-webkit-user-drag: none;}
+			  
+			#app header.header * {-webkit-user-drag: none;}
+			  
+			  #app .frontHero * {-webkit-user-drag: none;}
+				  
+				  .playControls .playControls__elements .playControls__control,
+					.playControls .playControls__elements .playControls__soundBadge * {-webkit-user-drag: none;}
+			  `;
+		  },
+		  checkOnMediaPage (pageUrl = window.location) {
+			  
+			  return pageUrl.hostname.match (/soundcloud\.com$/);
+		  },
+		  getMediaInfo () {
+			  
+
+		  },
+	  },
+
         /*
         " Music": {
             order: 204,
