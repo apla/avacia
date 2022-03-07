@@ -8,7 +8,7 @@ To download, just get the latest version from the project's releases page on Git
 
 [Avacia releases](https://github.com/apla/avacia/releases/)
 
-![]({% link images/screenshots/avacia-remove-app.jpg %}){:width="33%" class="screenshot" style="float: right; margin-left: 3em;"}
+![]({{ site.baseurl }}{% link images/screenshots/avacia-remove-app.jpg %}){:width="33%" class="screenshot" style="float: right; margin-left: 3em;"}
 
 macOS will complain about unknown developer and refuse to launch Avacia. I recommend the following steps to run application:
 
