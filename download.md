@@ -8,6 +8,8 @@ To download, just get the latest version from the project's releases page on Git
 
 [Avacia releases](https://github.com/apla/avacia/releases/)
 
+![]({% link images/screenshots/avacia-remove-app.jpg %}){:width="33%" class="screenshot" style="float: right; margin-left: 3em;"}
+
 macOS will complain about unknown developer and refuse to launch Avacia. I recommend the following steps to run application:
 
   1. move Avacia.app into Applications folder;
@@ -16,3 +18,9 @@ macOS will complain about unknown developer and refuse to launch Avacia. I recom
   4. click `Open` button.
 
 I predict sometime in the future Avacia.app will be notarized and available in the App Store. And this page will disappear as a puff of smoke.
+
+If you like to do it `Terminal` way, there is a command line for you:
+
+```sh
+sudo xattr -d com.apple.quarantine Avacia.app
+```
