@@ -8,6 +8,11 @@ EXEC_DIR="$PWD"
 # "FULL_PRODUCT_NAME" : "Avacia.app"
 # "TARGET_BUILD_DIR" : "/Users/apla/Library/Developer/Xcode/DerivedData/Avacia-ezentrsdungpgsbckjwpjnnxmnsp/Build/Products/Release"
 
+echo "Pushing code to the repo"
+
+git push
+git push --tags
+
 VERSION=$(node -p "require('./app/package.json').version")
 
 echo "Building Electrino Framework"
