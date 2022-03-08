@@ -263,6 +263,8 @@ function createWindow () {
         setTimeout (() => {
             console.log ('2 sec timeout');
         }, 2000);
+		
+		win.hideSplash();
     });
     
     // Emitted when the window is closed.

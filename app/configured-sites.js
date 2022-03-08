@@ -247,7 +247,12 @@ function getConfiguredSites () {
                 ) {
                     return;
                 }
-                return `
+
+				if (window.location.hostname.match (/accounts\.spotify\.com$/)) {
+					return `html#app {background-color: white;}`;
+				}
+
+				return `
                     /* spotify bar */
                     .mh-header-hover *,
                     div[data-hypernova-key="MastheadHeader"] * {-webkit-user-drag: none; -webkit-app-region: drag;}
