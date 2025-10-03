@@ -98,6 +98,7 @@ if (!("mediaSession" in navigator)) {
 
 const sites = window.getConfiguredSites();
 let currentSite;
+let isOnMediaPage = false;
 
 var havePlayingVideo = false;
 
@@ -110,42 +111,70 @@ let oldAudioEl;
 let oldAudioSrc;
 
 const mo = new MutationObserver(() => {
-    const videoEl = videoTags[0];
-    const audioEl = audioTags[0];
-    
-    const currentSites = Object.keys(sites).filter(
-        site => sites[site].checkOnMediaPage && sites[site].checkOnMediaPage()
-    );
+	
+	const currentSites = Object.keys(sites).filter(
+		site => sites[site].checkOnSite && sites[site].checkOnSite()
+	);
+	
+//    const currentSites = Object.keys(sites).filter(
+//        site => sites[site].checkOnMediaPage && sites[site].checkOnMediaPage()
+//    );
 
-    if (currentSites.length) {
-        if (currentSites.length > 1) {
-            console.log (`multiple sites matches ${window.location}, using first one from ${currentSites.join(', ')}`);
-        }
+	let videoEl = videoTags[0];
+	let audioEl = audioTags[0];
+	
+	if (!currentSites || currentSites.length === 0) {
+		if (havePlayingVideo) {
+			setRegularWindowState ('location-change');
+		}
+		return;
+	}
+	if (currentSites.length > 1) {
+		console.log (`multiple sites matches ${window.location}, using first one from ${currentSites.join(', ')}`);
+	}
 
-        const currentSiteConfig = sites[currentSites[0]];
-        
-        if (audioEl) {
-            if ((oldAudioEl !== audioEl)) {
-                oldAudioEl = audioEl;
-                oldAudioSrc = audioEl.src;
-            }
-        } else if (videoEl) {
-            if ((oldVideoEl !== videoEl)) {
-                oldVideoEl = videoEl;
-                oldVideoSrc = videoEl.src;
-                addMediaListeners(currentSiteConfig, videoEl);
-            }
-        } else {
-            oldVideoEl = undefined;
-            oldAudioEl = undefined;
-            setRegularWindowState('no-media-el');
-        }
-    } else {
-        if (havePlayingVideo) {
-            setRegularWindowState ('location-change');
-        }
-    }
-});        
+	const currentSiteConfig = sites[currentSites[0]];
+	
+	const wasOnMediaPage = isOnMediaPage;
+	isOnMediaPage = Boolean(currentSiteConfig.checkOnMediaPage && currentSiteConfig.checkOnMediaPage());
+
+	if (!isOnMediaPage) {
+		if (havePlayingVideo) {
+			setRegularWindowState ('location-change');
+		}
+		return;
+	}
+	
+	// TODO: make a uniform selector
+	if (currentSiteConfig.selectVideoEl) {
+		videoEl = currentSiteConfig.selectVideoEl(videoTags);
+	} else {
+		videoEl = videoTags[currentSiteConfig.videoElIndex || 0];
+	}
+	
+	if (currentSiteConfig.selectAudioEl) {
+		audioEl = currentSiteConfig.selectAudioEl(audioTags);
+	} else {
+		audioEl = audioTags[currentSiteConfig.audioElIndex || 0];
+	}
+	
+	if (audioEl) {
+		if ((oldAudioEl !== audioEl)) {
+			oldAudioEl = audioEl;
+			oldAudioSrc = audioEl.src;
+		}
+	} else if (videoEl) {
+		if ((oldVideoEl !== videoEl)) {
+			oldVideoEl = videoEl;
+			oldVideoSrc = videoEl.src;
+			addMediaListeners(currentSiteConfig, videoEl);
+		}
+	} else {
+		oldVideoEl = undefined;
+		oldAudioEl = undefined;
+		setRegularWindowState('no-media-el');
+	}
+});
         
 if (window.top === window) {
 
@@ -171,14 +200,51 @@ if (window.top === window) {
     }, 100);
 
 }
-    
-function setRegularWindowState (why) {
+
+//document.addEventListener("fullscreenchange", (evt) => {
+//	if (document.fullscreenElement) {
+//		window.webkit.messageHandlers.$ipc.postMessage ({
+//			channel: 'window-state-fullscreen',
+//			{}
+//		});
+//	} else {
+//		
+//	}
+//});
+
+function setRegularWindowState (reason, mediaEl) {
     havePlayingVideo = false;
+	
+	if (reason === 'video-pause') {
+		getAspectRatio (mediaEl, isOnMediaPage);
+	}
+	
     window.webkit.messageHandlers.$ipc.postMessage ({
         channel: 'window-state-regular',
-        payload: {why}
+		payload: {
+			reason,
+			isFullscreen: !!document.fullscreenElement,
+			isOnMediaPage
+		}
     });
 }
+
+function setPlayingWindowState (isVideoOnTop, reason, mediaEl) {
+	havePlayingVideo = true;
+	console.trace ('video playing', isVideoOnTop);
+	if (isVideoOnTop) window.webkit.messageHandlers.$ipc.postMessage ({
+		channel: 'window-state-playing',
+		payload: {
+			reason,
+			isFullscreen: !!document.fullscreenElement,
+			isOnMediaPage
+		}
+	});
+	if (isOnMediaPage) {
+		getAspectRatio(mediaEl, isOnMediaPage);
+	}
+}
+
 
 function addMediaListeners (currentSiteConfig, mediaEl) {
 
@@ -188,12 +254,7 @@ function addMediaListeners (currentSiteConfig, mediaEl) {
         setMediaMetadata.call(this, currentSiteConfig, {target: mediaEl});
 
         if (!mediaEl.paused) {
-            havePlayingVideo = true;
-            console.log ('video playing');
-            if (isVideoOnTop) window.webkit.messageHandlers.$ipc.postMessage ({
-                channel: 'window-state-playing',
-                // payload: {a: 2, b: 3}
-            });
+			setPlayingWindowState(isVideoOnTop, 'event-subscription', mediaEl);
         }
     } else {
         mediaEl.addEventListener ('loadedmetadata', setMediaMetadata.bind (this, currentSiteConfig));
@@ -203,13 +264,8 @@ function addMediaListeners (currentSiteConfig, mediaEl) {
     }
     
     mediaEl.addEventListener ('play', () => {
-        console.log ('video playing');
-        havePlayingVideo = true;
-        document.documentElement.classList.add ('video-playing');
-        if (isVideoOnTop) window.webkit.messageHandlers.$ipc.postMessage ({
-            channel: 'window-state-playing',
-            // payload: {a: 2, b: 3}
-        });
+        document.documentElement.classList.add ('video-playing'); // ???
+		setPlayingWindowState(isVideoOnTop, 'event-play', mediaEl);
     });
     
     mediaEl.addEventListener ('pause', mediaNotPlaying);
@@ -274,17 +330,21 @@ function setMediaMetadata (currentSiteConfig, {target: mediaEl}) {
     console.log (`media metadata loaded, ${videoPropsLogMsg}duration ${mediaEl.duration}s`);
 }
 
-function getAspectRatio (mediaEl) {
+function getAspectRatio (mediaEl, isOnMediaPage) {
     const aspectRatio = mediaEl.videoWidth / mediaEl.videoHeight;
     // window.resizeTo (mediaEl.offsetWidth, fitHeight);
     const
         mediaWidth  = parseInt (mediaEl.style.width),
         mediaHeight = parseInt (mediaEl.style.height);
     
-    if (!isNaN (aspectRatio)) {
+	if (!isNaN (aspectRatio) && isOnMediaPage) {
         window.webkit.messageHandlers.$ipc.postMessage ({
             channel: 'window-set-aspect-ratio',
-            payload: {aspectRatio}
+			payload: {
+				aspectRatio,
+				isFullscreen: !!document.fullscreenElement,
+				isOnMediaPage
+			}
         });
         if (!isNaN (mediaWidth)) {
             mediaEl.style.height = mediaWidth / aspectRatio;
@@ -297,10 +357,7 @@ function getAspectRatio (mediaEl) {
 function mediaNotPlaying (evt) {
     document.documentElement.classList.remove ('video-playing');
     console.log ('regular state ' + evt.type);
-    if (evt.type === 'pause') {
-        getAspectRatio (evt.target);
-    }
-    setRegularWindowState('video-' + evt.type);
+	setRegularWindowState('video-' + evt.type, evt.target);
 }
 
 /*

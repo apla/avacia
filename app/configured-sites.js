@@ -1,16 +1,23 @@
 function getConfiguredSites () {
     return {
         Netflix: {
-            order: 201,
+            order: 200,
             siteMediaType: 'video',
             isVideoOnTop: true,
             baseUrl: 'https://netflix.com',
+			checkOnSite (pageUrl = window.location) {
+				return pageUrl.hostname.match (/netflix\.com$/);
+			},
             getInjectCss () {
                 if (!window.location.hostname.match (/netflix\.com$/)) {
                     return;
                 }
                 return `
                     /* netflix */
+				
+					/* netflix login page */
+					#appMountPoint * {-webkit-user-drag: none; -webkit-app-region: drag;}
+				
                     /* netflix main page decorations */
                     .pinning-header .main-header {padding: 0 0 0 75px;}
                     .pinning-header .secondary-navigation {right: 0;}
@@ -32,8 +39,7 @@ function getConfiguredSites () {
                 `;
             },
             checkOnMediaPage (pageUrl = window.location) {
-                return pageUrl.hostname.match (/netflix\.com$/)
-                && pageUrl.pathname.match (/^\/watch\/\d+$/);
+                return pageUrl.hostname.match (/netflix\.com$/) && pageUrl.pathname.match (/^\/watch\/\d+$/);
             },
             getMediaInfo () {
 				// audio and subtitles tracks
@@ -49,11 +55,95 @@ function getConfiguredSites () {
             },
 
         },
+		"Prime Video": {
+			order: 210,
+			siteMediaType: 'video',
+			isVideoOnTop: true,
+			selectVideoEl (videoEls) {
+				return Array.from(videoEls).filter(
+					videoEl => videoEl.closest('.dv-player-fullscreen')
+				)[0]
+			},
+			baseUrl: 'http://primevideo.com/',
+			checkOnSite (pageUrl = window.location) {
+				return pageUrl.hostname.match (/primevideo\.com$/) || pageUrl.hostname.match (/amazon/);
+			},
+			getInjectCss () {
+				if (!(
+					window.location.hostname.match (/primevideo\.com$/)
+					|| window.location.hostname.match (/amazon/)
+				)) {
+					return;
+				}
+				
+				if (window.location.href.match('cookieprefs')) {
+					return `body * {-webkit-user-drag: none; -webkit-app-region: drag;}`;
+				}
+				
+				return `
+					/* sign in */
+	
+					body>#a-page * {-webkit-user-drag: none; -webkit-app-region: drag;}
+					/* primevideo */
+					#pv-navigation-bar * {-webkit-user-drag: none; -webkit-app-region: drag; user-select: none; -webkit-user-select: none; }
+					.dv-page-center * {-webkit-user-drag: none; -webkit-app-region: drag;}
+					#dv-web-player.dv-player-fullscreen * {-webkit-user-drag: none; -webkit-app-region: drag;}
+					.atvwebplayersdk-player-container * {-webkit-user-drag: none; -webkit-app-region: drag;}
+				`;
+			},
+			checkOnMediaPage (pageUrl = window.location) {
+				return pageUrl.hostname.match (/primevideo\.com$/) && document.querySelector('.dv-player-fullscreen');
+			},
+			getMediaInfo () {
+			}
+		},
+		"Disney+": {
+			order: 220,
+			siteMediaType: 'video',
+			isVideoOnTop: true,
+			selectVideoEl (videoEls) {
+				return Array.from(videoEls).filter(
+					videoEl => videoEl.id === 'hivePlayer'
+				)[0]
+			},
+			baseUrl: 'http://www.disneyplus.com/',
+			checkOnSite (pageUrl = window.location) {
+				return pageUrl.hostname.match (/disneyplus\.com$/);
+			},
+			getInjectCss () {
+				if (!(
+					window.location.hostname.match (/disneyplus\.com$/)
+				)) {
+					return;
+				}
+				
+//				if (window.location.href.match('cookieprefs')) {
+					return `body * {-webkit-user-drag: none; -webkit-app-region: drag; user-select: none; -webkit-user-select: none;}`;
+//				}
+				
+				return `
+					/* main page */
+	
+					#webAppRoot * {-webkit-user-drag: none; -webkit-app-region: drag; user-select: none; -webkit-user-select: none; }
+	
+					/* video page */
+					.video_view--theater * {-webkit-user-drag: none; -webkit-app-region: drag; user-select: none; -webkit-user-select: none; }
+				`;
+			},
+			checkOnMediaPage (pageUrl = window.location) {
+				return pageUrl.hostname.match (/disneyplus\.com$/) && pageUrl.pathname.match(/^\/\w+(?:-\w+)?\/play\//);
+			},
+			getMediaInfo () {
+			}
+		},
         YouTube: {
-            order: 202,
+            order: 230,
             siteMediaType: 'video',
             isVideoOnTop: true,
             baseUrl: 'https://youtube.com',
+			checkOnSite (pageUrl = window.location) {
+				return pageUrl.hostname.match (/(?<!music\.)youtube\.com$/);
+			},
             getInjectCss () {
                 if (
                     !window.location.hostname.match (/youtube\.com$/)
@@ -120,10 +210,13 @@ function getConfiguredSites () {
         },
 
         Vimeo: {
-            order: 203,
+            order: 240,
             siteMediaType: 'video',
             isVideoOnTop: true,
             baseUrl: 'https://vimeo.com/watch',
+			checkOnSite (pageUrl = window.location) {
+				return pageUrl.hostname.match (/vimeo\.com$/);
+			},
             getInjectCss () {
                 if (
                     !window.location.hostname.match (/vimeo\.com$/)
@@ -142,8 +235,7 @@ function getConfiguredSites () {
                 `;
             },
             checkOnMediaPage (pageUrl = window.location) {
-                return pageUrl.hostname.match (/vimeo\.com$/)
-                && pageUrl.pathname.match (/^(?:\/channels\/[^\/]+)?\/\d+$/);
+                return pageUrl.hostname.match (/vimeo\.com$/) && pageUrl.pathname.match (/^(?:\/channels\/[^\/]+)?\/\d+$/);
             },
             getMediaInfo () {
                 
@@ -151,9 +243,12 @@ function getConfiguredSites () {
         },
 
         "Coub Weekly": {
-            order: 204,
+            order: 250,
             siteMediaType: 'video',
             baseUrl: 'https://coub.com/weekly/',
+			checkOnSite (pageUrl = window.location) {
+				return pageUrl.hostname.match (/coub\.com$/);
+			},
             getInjectCss () {
                 if (
                     !window.location.hostname.match (/coub\.com$/)
@@ -176,9 +271,12 @@ function getConfiguredSites () {
         },
 
         "YouTube Music": {
-            order: 202,
+            order: 310,
             siteMediaType: 'audio',
             baseUrl: 'https://music.youtube.com',
+			checkOnSite (pageUrl = window.location) {
+				return pageUrl.hostname.match (/music\.youtube\.com$/);
+			},
             getInjectCss () {
                 if (
                     !window.location.hostname.match (/music\.youtube\.com$/)
@@ -237,9 +335,12 @@ function getConfiguredSites () {
         },
 
         "Spotify": {
-            order: 201,
+            order: 300,
             siteMediaType: 'audio',
             baseUrl: 'https://open.spotify.com',
+			checkOnSite (pageUrl = window.location) {
+				return pageUrl.hostname.match (/spotify\.com$/);
+			},
             getInjectCss () {
                 
                 if (
@@ -253,59 +354,29 @@ function getConfiguredSites () {
 				}
 
 				return `
-                    /* spotify bar */
-                    .mh-header-hover *,
-                    div[data-hypernova-key="MastheadHeader"] * {-webkit-user-drag: none; -webkit-app-region: drag;}
-                    .mh-brand-wrapper {margin-right: auto; margin-left: auto;}
-                    
+					/* spotify bar */
+					div#global-nav-bar * {-webkit-user-drag: none; -webkit-app-region: drag;}
+					// move logo a little
+					div#global-nav-bar > div:first-child {padding-top: 10px;}
+					
+					/* app download icon */
+					a[href='/download'] {display: none;}
+					
+					/* footer */
+					footer[data-testid='now-playing-bar'],	
+					footer[data-testid='now-playing-bar'] > div > div:first-child *,
+					div[data-testid='general-controls'] *,
+					footer[data-testid='now-playing-bar'] > div > div:last-child > div:nth-child(-n+3) *
+					{-webkit-user-drag: none; -webkit-app-region: drag;}
+				
+					/* fullscreen is not woring */
+					footer[data-testid='now-playing-bar'] > div > div:last-child > div > button:last-child {display: none;}
+				
                     /* spotify login */
                     .ng-scope div.head, .ng-scope div.head * {-webkit-user-drag: none; -webkit-app-region: drag;}
                     
                 
-                    /* spotify bar (open) */
-                    html.spotify__os--is-macos .now-playing-bar-container *,
-                    html.spotify__os--is-macos .Root__nav-bar>div>div,
-                    html.spotify__os--is-macos .Root__nav-bar>div>div *,
-                    html.spotify__os--is-macos .Root__nav-bar>div>div[role=banner] *,
-                    div[data-test-id="topbar-content-wrapper"] {
-                        -webkit-user-drag: none; -webkit-app-region: drag;
-                    }
-                    html.spotify__os--is-macos .now-playing-bar-container .progress-bar {-webkit-user-drag: auto;}
-                    
-                    html.spotify__os--is-macos .now-playing-bar-container {
-                        position: absolute;
-                        bottom: 0;
-                        width: 100%;
-                        background-color: rgba(255,255,255,0.15);
-                        -webkit-backdrop-filter: blur(5px);
-                    }
-                    
-                    html.spotify__os--is-macos body {min-height: auto;}
-                    html.spotify__os--is-macos .contentSpacing {padding: 0 5px 60px;}
-                    html.spotify__os--is-macos .Root__nav-bar .Rootlist {overflow-y: scroll; padding-bottom: 60px;}
-                    html.spotify__os--is-macos .Root__nav-bar>div {padding: 0 0 60px;}
-                    
-                    /* spotify logo */
-                    html.spotify__os--is-macos .Root__nav-bar>div {
-                        padding-top: 0;
-                    }
-                    html.spotify__os--is-macos .Root__nav-bar a.logo {padding: 10px 0 0 75px;}
-                    html.spotify__os--is-macos .Root__nav-bar>div>ul>li:first-of-type {display:none;}
-                    html.spotify__os--is-macos .Root__nav-bar>div>ul>li:nth-of-type(2) {position: absolute; top: 10px; left: 272px;}
-                    html.spotify__os--is-macos .Root__nav-bar>div>ul>li:nth-of-type(2) a {background: none;}
-                    html.spotify__os--is-macos .Root__nav-bar>div>ul>li:nth-of-type(2) span {display: none;}
-				    /* app download link */
-                    html.spotify__os--is-macos .Root__nav-bar>div>div:last-of-type {display: none;}
-                    div[data-test-id="topbar-content-wrapper"] {padding: 40px;}
-                    @media screen and (min-width: 1024px) {
-                        html.spotify__os--is-macos .Root__nav-bar>div>ul>li:nth-of-type(2) {position: absolute; top: 10px; left: 340px;}
-                    }
 
-					.Root__now-playing-bar .ExtraControls {justify-content: flex-start;}
-                    
-                    .now-playing-bar__center {width: 60%;}
-                    .now-playing-bar__right {width: 10%; min-width: 75px;}
-                    .now-playing-bar__right__inner {width: 75px;}
                 `;
             },
             checkOnMediaPage (pageUrl = window.location) {
@@ -345,13 +416,16 @@ function getConfiguredSites () {
             }
         },
         "Amazon Music": {
-            order: 203,
+            order: 320,
             siteMediaType: 'audio',
             baseUrl: 'https://music.amazon.com',
+			checkOnSite (pageUrl = window.location) {
+				return pageUrl.hostname.match (/music\.amazon\./);
+			},
             getInjectCss () {
                 
                 if (
-                    !window.location.hostname.match (/amazon\.com$/)
+                    !window.location.hostname.match (/music\.amazon\./)
                 ) {
                     return;
                 }
@@ -409,9 +483,12 @@ function getConfiguredSites () {
             }
         },
 	  "SoundCloud": {
-		  order: 204,
+		  order: 330,
 		  siteMediaType: 'audio',
 		  baseUrl: 'https://soundcloud.com/',
+		  checkOnSite (pageUrl = window.location) {
+			  return pageUrl.hostname.match (/soundcloud\.com$/);
+		  },
 		  getInjectCss () {
 			  
 			  if (
@@ -443,9 +520,13 @@ function getConfiguredSites () {
 
         /*
         " Music": {
-            order: 205,
+            order: 340,
             siteMediaType: 'audio',
             baseUrl: 'https://beta.music.apple.com/',
+		 checkOnSite (pageUrl = window.location) {
+			 return pageUrl.hostname.match (/music\.apple\.com$/);
+		 },
+
             getInjectCss () {
                 
                 if (

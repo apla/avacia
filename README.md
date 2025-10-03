@@ -35,3 +35,7 @@ https://artists.amazonmusic.com/about-amazon-music
 
 https://discord.com/brand-new/branding
 
+Avacia[51897:6457343] [ProcessSuspension] 0x1090980e0 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'WebKit Media Playback' for process with PID=51900, error: Error Domain=RBSServiceErrorDomain Code=1 "(originator doesn't have entitlement com.apple.runningboard.assertions.webkit AND originator doesn't have entitlement com.apple.multitasking.systemappassertions)" UserInfo={NSLocalizedFailureReason=(originator doesn't have entitlement com.apple.runningboard.assertions.webkit AND originator doesn't have entitlement com.apple.multitasking.systemappassertions)}
+Avacia[51897:6457343] [assertion] Error acquiring assertion: <Error Domain=RBSServiceErrorDomain Code=1 "(originator doesn't have entitlement com.apple.runningboard.assertions.webkit AND originator doesn't have entitlement com.apple.multitasking.systemappassertions)" UserInfo={NSLocalizedFailureReason=(originator doesn't have entitlement com.apple.runningboard.assertions.webkit AND originator doesn't have entitlement com.apple.multitasking.systemappassertions)}>
+2023-06-24 22:45:23.938629+0300 Avacia[51897:6456217] [logging] open flag(s) 0x01000000 are reserved for VFS use and do not affect behaviour when passed to sqlite3_open_v2
+

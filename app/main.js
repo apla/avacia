@@ -34,23 +34,33 @@ console.log (app.getPath('appData'), app.getPath('userData'));
 
 ipcMain.on ('window-state-playing', (event, payload) => {
     // win.setWindowButtonVisibility
-    // console.log ('window-video-play', event, JSON.stringify(payload));
-    win.setAlwaysOnTop(true);
-    win.setWindowButtonVisibility(false);
+     console.log ('window-video-play', event, JSON.stringify(payload));
+	if (!payload[0].isFullscreen) {
+		win.setAlwaysOnTop(true);
+		win.setWindowButtonVisibility(false);
+	}
 });
 
 ipcMain.on ('window-state-regular', (event, payload) => {
     // win.setWindowButtonVisibility
-    // console.log ('window-state-regular', event, JSON.stringify(payload));
-    win.setAlwaysOnTop(false);
-    win.setWindowButtonVisibility(true);
+     console.log ('window-state-regular', event, JSON.stringify(payload));
+	if (!payload[0].isFullscreen) {
+		win.setAlwaysOnTop(false);
+		win.setWindowButtonVisibility(true);
+	}
 });
 
 ipcMain.on ('window-set-aspect-ratio', (event, payload) => {
     // win.setWindowButtonVisibility
     console.log ('window-set-aspect-ratio', JSON.stringify(payload));
-    // win.setAspectRatio (payload.aspectRatio);
-    resizeWindow(payload[0]);
+	if (!payload[0].isFullscreen) {
+//		if (payload.isOnMediaPage) {
+//			win.setAspectRatio(payload.aspectRatio);
+//		} else {
+//			win.setAspectRatio(0.0);
+			resizeWindow(payload[0]);
+//		}
+	}
 });
 
 function resizeWindow (constraint) {
@@ -76,7 +86,7 @@ function resizeWindow (constraint) {
             
             override.y = winBounds.y - (override.height - winBounds.height);
         }
-        console.log (`old height ${winBounds.height}, new height ${override.height}`);
+        console.log (`setting bounds: old height ${winBounds.height}, new height ${override.height}`);
     }
     
     win.setBounds({
@@ -208,6 +218,8 @@ function navigateTo (win, urlString, options) {
         return win.loadFile (urlString.replace ('file://', ''), options);
     }
     win.loadURL (urlString, options);
+	// if menu navigation occurs while playing video
+	win.setAlwaysOnTop(false);
 }
 
 function createWindow () {
@@ -220,13 +232,12 @@ function createWindow () {
         splashscreen: "images/splash.pdf",
         webPreferences: {
             devTools: true, // devTools enabled by default, set `devTools` key to `false` to disable
-            userAgentAppName: "Version/13.1.2 Safari/605.1.15",
+            userAgentAppName: "Version/26.0.1 Safari/605.1.15",
 			enableRemoteModule: false,
 			nodeIntegration: false,
             preload: process.versions.chrome ? path.join (__dirname, preloadFilename) : preloadScript, // getFunctionContents(preload.toString())
         }
     });
-
     
     
     // win.attachContextMenu (buildMenu ());

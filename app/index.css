@@ -24,6 +24,9 @@ body, body * {
     -webkit-user-drag: none;
 	-webkit-app-region: drag;
 }
+
+h4 {margin-left: 32px;}
+
 .sites {
     height: calc(100vh - 20px);
     margin-left: 1em;
@@ -36,6 +39,7 @@ ul.site-icon-row {
     overflow-y: hidden;
     height: 150px;
     white-space: nowrap;
+	padding: 0;
 }
 ul.site-icon-row li {list-style: none; display: inline-block; margin: 0 32px;}
 ul.site-icon-row li a.provider div.icon {width: 100px;}
